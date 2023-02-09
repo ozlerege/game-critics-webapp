@@ -11,12 +11,15 @@
 }
 h2 {
   font-family: andale mono, monospace;
+  font-weight: bold !important;
 }
 h3 {
   font-family: andale mono, monospace;
+  font-weight: bold !important;
 }
 label {
   font-family: andale mono, monospace;
+  font-weight: bold !important;
 }
 input[type="password"] {
   border-radius: 8px;
@@ -34,4 +37,15 @@ button[type="button"] {
   font-size: 15px;
   width: 40%;
   background-color: white;
+}
+h4 {
+  font-family: andale mono, monospace;
+  font-weight: bold !important;
+}
+.form-select {
+  background-color: white;
+  color: black;
+  font-family: andale mono, monospace;
+  width: 60%;
+  text-align: left;
 }

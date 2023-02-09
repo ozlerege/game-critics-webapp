@@ -39,7 +39,7 @@ function Login (){
 
                         
                     </div>
-                    <div className= 'col-lg-6'>
+                    <div className= 'col-lg-6 d-flex justify-content-center align-items-center'>
                             <img src={login_pic} className="img-fluid" alt="logo" />
                         </div>
                 </div>
