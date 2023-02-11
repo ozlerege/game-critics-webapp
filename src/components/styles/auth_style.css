@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
+body {
+  background-color: black;
+}
 .row {
   background-color: white;
   border-radius: 10px;
@@ -26,12 +29,12 @@ input[type="password"] {
   border: 2px solid black;
   font-family: andale mono, monospace;
 }
-input[type="email"] {
+input[type="text"] {
   border-radius: 8px;
   border: 2px solid black;
   font-family: andale mono, monospace;
 }
-button[type="button"] {
+button[type="submit"] {
   align-content: center;
   font-family: andale mono, monospace;
   font-size: 15px;
