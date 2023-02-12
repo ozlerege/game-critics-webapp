@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
+.navbar-brand {
+  font-family: "Staatliches";
+}
+.navbar-toggler {
+  background-color: white;
+}
+.navbar-nav {
+  font-family: "Staatliches";
+}
+.d-flex {
+  width: 300px;
+}
+input[type="search"] {
+  font-family: "Staatliches";
+  color: black !important;
+  border: 3px solid white;
+  font-size: 14px;
+}
