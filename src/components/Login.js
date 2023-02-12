@@ -4,6 +4,9 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import login_pic from "./pictures/login_pic.png";
 import "./styles/auth_style.css";
+import { Route, Routes } from "react-router-dom";
+import SignUp from "./SignUp";
+import { Link } from "react-router-dom";
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -78,9 +81,11 @@ function Login() {
               <div className="form-row mt-4">
                 <h3>Don't Have an Account?</h3>
                 <div className="form-row mt-4 pb-3">
-                  <Button type="submit" variant="outline-dark">
-                    Create an Account
-                  </Button>
+                  <Link to="/signup">
+                    <Button type="submit" variant="outline-dark">
+                      Create an Account
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </Form>

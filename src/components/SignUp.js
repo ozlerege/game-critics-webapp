@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import login_pic from "./pictures/login_pic.png";
 import "./styles/auth_style.css";
+import { Link } from "react-router-dom";
 
 function SignUp() {
   const [username, setUsername] = useState("");
@@ -139,9 +140,11 @@ function SignUp() {
               <div className="form-row mt-4">
                 <h3>Already Have an Account?</h3>
                 <div className="form-row mt-4 pb-3">
-                  <Button type="submit" variant="outline-dark">
-                    Login
-                  </Button>
+                  <Link to="/">
+                    <Button type="submit" variant="outline-dark">
+                      Login
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </Form>
