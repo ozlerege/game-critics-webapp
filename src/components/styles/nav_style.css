@@ -8,9 +8,6 @@
 .navbar-nav {
   font-family: "Staatliches";
 }
-.d-flex {
-  width: 300px;
-}
 input[type="search"] {
   font-family: "Staatliches";
   color: black !important;

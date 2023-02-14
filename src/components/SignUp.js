@@ -43,7 +43,8 @@ function SignUp() {
       console.log(data);
     }
   };
-
+  const pass_length_check = password.length >= 3 && password.length <= 20;
+  const pass_match_check = password.length > 0 && password === confirm_password;
   return (
     <div className="form my-5 mx-5">
       <div className="d-flex justify-content-center align-items-center container">
@@ -90,6 +91,48 @@ function SignUp() {
                 ></Form.Control>
               </div>
 
+              {pass_length_check ? (
+                <div
+                  style={{
+                    color: "green",
+                    padding: "10px",
+                    "font-family": "andale mono, monospace",
+                  }}
+                >
+                  Password length is between 3 and 20!
+                </div>
+              ) : (
+                <div
+                  style={{
+                    color: "red",
+                    padding: "10px",
+                    "font-family": "andale mono, monospace",
+                  }}
+                >
+                  Password length is not between 3 and 20!
+                </div>
+              )}
+              {pass_match_check ? (
+                <div
+                  style={{
+                    color: "green",
+                    padding: "10px",
+                    "font-family": "andale mono, monospace",
+                  }}
+                >
+                  Password match!
+                </div>
+              ) : (
+                <div
+                  style={{
+                    color: "red",
+                    padding: "10px",
+                    "font-family": "andale mono, monospace",
+                  }}
+                >
+                  Password do not match!
+                </div>
+              )}
               <div className="form-row mt-4">
                 <h4>What kind of games do you play?</h4>
                 <Form.Select
@@ -109,7 +152,6 @@ function SignUp() {
                   <option value="Adventure">Adventure</option>
                 </Form.Select>
               </div>
-
               <div className="form-row mt-4 pb-3">
                 <h4>What platform do you prefer?</h4>
                 <Form.Select
