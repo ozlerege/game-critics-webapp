@@ -30,3 +30,14 @@ h1 {
   width: 200px;
   border-radius: 15px;
 }
+.favorite-icon {
+  color: white;
+}
+
+.favorite-icon:hover {
+  color: red;
+}
+
+.favorite-icon:active {
+  color: red;
+}

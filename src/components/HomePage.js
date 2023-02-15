@@ -6,12 +6,14 @@ import "./styles/homepage.css";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import config from "./config.js";
+import { FaRegHeart } from "react-icons/fa";
+
 function HomePage() {
   const [latestGames, setLatestGames] = useState([]);
   const [selectedPlatform, setSelectedPlatform] = useState("");
 
+  const my_key = config.API_KEY;
   useEffect(() => {
-    const my_key = config.API_KEY;
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
       .toISOString()
       .slice(0, 10);
@@ -23,15 +25,28 @@ function HomePage() {
       .catch((err) => console.error(err));
   }, [selectedPlatform]);
 
-  const handlePlatformClick = (platform) => {
-    console.log("Platform name", platform.target.value);
-    setSelectedPlatform(`&parent_platforms=${platform.target.value}`);
+  const handlePlatformClick = (event) => {
+    fetch(`https://api.rawg.io/api/platforms?key=${my_key}`)
+      .then((response) => response.json())
+      .then((data) => {
+        data.results.forEach((platform) => {
+          if (platform.name === event.target.value) {
+            console.log(platform.name + " :" + platform.id);
+            setSelectedPlatform(platform.id);
+          }
+        });
+      })
+      .catch((error) => console.error(error));
+
+    setSelectedPlatform(`&platforms=${event.target.value}`);
   };
-  console.log("Games List ", latestGames);
+  const handleIcon = (event) => {
+    console.log("here");
+  };
   return (
     <div className="main">
-      <h1 className="pb-3">Check out the new releases</h1>
-      <div className="form-row mt-4 px-2 pb-4">
+      <h1 className="pb-3 px-3">Check out the new releases</h1>
+      <div className="form-row mt-4 px-3 pb-4">
         <Form.Select
           className="custom-select-form"
           aria-label="Default select example"
@@ -39,9 +54,11 @@ function HomePage() {
           required
         >
           <option selected>Select platform</option>
-          <option value="1">Xbox</option>
-          <option value="Playstation 5">Playstation</option>
-          <option value="3">PC</option>
+          <option value="Xbox One">Xbox One</option>
+          <option value="Xbox Series S/X">Xbox Series S/X</option>
+          <option value="PlayStation 4">Playstation 4</option>
+          <option value="PlayStation 5">Playstation 5</option>
+          <option value="PC">PC</option>
           <option value="Nintendo">Nintendo</option>
         </Form.Select>
       </div>
@@ -57,6 +74,20 @@ function HomePage() {
                 src={games.background_image}
                 style={{ height: "170px" }}
               />
+              <Card.ImgOverlay style={{ padding: 0 }}>
+                <Button
+                  onClick={handleIcon}
+                  variant="link"
+                  style={{ position: "absolute", top: 0, right: 0 }}
+                >
+                  <FaRegHeart
+                    className="favorite-icon"
+                    icon={FaRegHeart}
+                    color="white"
+                    size="2em"
+                  />
+                </Button>
+              </Card.ImgOverlay>
               <Card.Body style={{ display: "flex", flexDirection: "column" }}>
                 <Card.Title
                   style={{ fontFamily: "Staatliches", fontSize: "30px" }}
