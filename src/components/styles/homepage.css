@@ -41,3 +41,22 @@ h1 {
 .favorite-icon:active {
   color: red;
 }
+.months-container {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 5px;
+  margin-bottom: 20px;
+}
+
+button {
+  margin-right: 10px;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  font-family: "andale mono, monospace";
+}
+
+button:hover {
+  color: black;
+}
