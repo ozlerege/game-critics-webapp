@@ -47,16 +47,13 @@ h1 {
   white-space: nowrap;
   padding: 5px;
   margin-bottom: 20px;
+  gap: 10px;
 }
 
-button {
-  margin-right: 10px;
+.buttons {
   font-weight: bold;
   border-radius: 5px;
   border: none;
+  gap: 5px;
   font-family: "andale mono, monospace";
-}
-
-button:hover {
-  color: black;
 }

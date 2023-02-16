@@ -7,6 +7,8 @@ import ListGroup from "react-bootstrap/ListGroup";
 import config from "./config.js";
 
 function Upcoming() {
+  const my_key = config.API_KEY;
+
   const [upcomingGames, setUpcomingGames] = useState([]);
   const months = [
     "Jan",
@@ -22,7 +24,6 @@ function Upcoming() {
     "Nov",
     "Dec",
   ];
-
   const monthToNumber = {
     Jan: "01",
     Feb: "02",
@@ -38,7 +39,6 @@ function Upcoming() {
     Dec: "12",
   };
   const [selectedMonth, setSelectedMonth] = useState("Feb");
-  const my_key = config.API_KEY;
 
   useEffect(() => {
     const year = 2023;
@@ -55,17 +55,22 @@ function Upcoming() {
       .then((response) => response.json())
       .then((response) => {
         setUpcomingGames(response.results);
-        console.log(upcomingGames);
+        console.log("Total ", response);
       })
       .catch((err) => console.error(err));
   }, [selectedMonth]);
 
   return (
     <div className="main">
-      <h1 className="pb-3 px-3">Upcoming games in {selectedMonth} 2023</h1>
+      <h1 className="pb-3 px-3">
+        Upcoming popular games in {selectedMonth} 2023
+      </h1>
       <div className="months-container pb-3 px-3">
         {months.map((month, index) => (
           <Button
+            style={{
+              fontFamily: "andale mono, monospace",
+            }}
             variant="dark"
             key={index}
             className={selectedMonth === month ? "active" : ""}
@@ -75,6 +80,7 @@ function Upcoming() {
           </Button>
         ))}
       </div>
+
       {upcomingGames.length === 0 ? (
         <div className="no-data-found">No data found</div>
       ) : (
@@ -87,7 +93,13 @@ function Upcoming() {
                   src={games.background_image}
                   style={{ height: "170px" }}
                 />
-                <Card.Body style={{ display: "flex", flexDirection: "column" }}>
+                <Card.Body
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                  }}
+                >
                   <Card.Title
                     style={{ fontFamily: "Staatliches", fontSize: "30px" }}
                   >
@@ -137,15 +149,33 @@ function Upcoming() {
                       </ListGroup.Item>
                     </ListGroup>
                   </Card.Text>
-                  <Button
-                    variant="dark"
-                    style={{
-                      marginTop: "auto",
-                      fontFamily: "andale mono, monospace",
-                    }}
+                  <div
+                    className="buttons"
+                    style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    Get Details
-                  </Button>
+                    <Button
+                      variant="dark"
+                      className="button-edit"
+                      style={{
+                        marginTop: "auto",
+                        marginLeft: "auto",
+                        fontFamily: "andale mono, monospace",
+                      }}
+                    >
+                      Get Details
+                    </Button>
+                    <Button
+                      className="button-edit"
+                      variant="warning"
+                      style={{
+                        marginTop: "auto",
+                        marginLeft: "auto",
+                        fontFamily: "andale mono, monospace",
+                      }}
+                    >
+                      Add to Favorites
+                    </Button>
+                  </div>
                 </Card.Body>
               </Card>
             );
