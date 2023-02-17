@@ -49,11 +49,46 @@ h1 {
   margin-bottom: 20px;
   gap: 10px;
 }
-
 .buttons {
   font-weight: bold;
   border-radius: 5px;
   border: none;
   gap: 5px;
   font-family: "andale mono, monospace";
+}
+
+.paginationButtons {
+  display: flex;
+  justify-content: left;
+  list-style: none;
+  gap: 10px;
+  padding: 0;
+}
+
+.paginationButtons > * {
+  background-color: white;
+  border: 1px solid #ddd;
+  color: #333;
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-family: "andale mono, monospace";
+}
+.nextButton,
+.previousButton {
+  text-decoration: none;
+  color: black;
+  font-family: "andale mono, monospace";
+}
+
+.paginationActive {
+  background-color: black;
+  color: white;
+}
+
+.paginationDisabled {
+  color: red;
+  cursor: not-allowed;
+  pointer-events: none;
 }

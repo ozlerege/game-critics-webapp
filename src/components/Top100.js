@@ -5,87 +5,52 @@ import "./styles/homepage.css";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import config from "./config.js";
+import ReactPaginate from "react-paginate";
 
-function Upcoming() {
-  const [upcomingGames, setUpcomingGames] = useState([]);
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
-  const [selectedMonth, setSelectedMonth] = useState("Feb");
+function Top100() {
+  const [topGames, setTopGames] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const gamePerPage = 20;
 
   useEffect(() => {
     const my_key = config.API_KEY;
-    const monthToNumber = {
-      Jan: "01",
-      Feb: "02",
-      Mar: "03",
-      Apr: "04",
-      May: "05",
-      Jun: "06",
-      Jul: "07",
-      Aug: "08",
-      Sep: "09",
-      Oct: "10",
-      Nov: "11",
-      Dec: "12",
-    };
-    const year = 2023;
-    const month = monthToNumber[selectedMonth];
-    const startDate = `${year}-${month.toString().padStart(2, "0")}-01`;
-    const endDate = `${year}-${month.toString().padStart(2, "0")}-${new Date(
-      year,
-      month,
-      0
-    ).getDate()}`;
-    const url = `https://api.rawg.io/api/games?key=${my_key}&dates=${startDate},${endDate}&order=released`;
+    const url = `https://api.rawg.io/api/games?key=${my_key}&metacritic=90,100&order=metacritic&page=${currentPage}&page_size=${gamePerPage}`;
 
     fetch(url)
       .then((response) => response.json())
       .then((response) => {
-        setUpcomingGames(response.results);
-        console.log("Total ", response.next);
+        setTopGames(response.results);
+        setTotalPages(Math.ceil(response.count / gamePerPage));
       })
       .catch((err) => console.error(err));
-  }, [selectedMonth]);
+  }, [currentPage]);
+
+  const changePage = ({ selected }) => {
+    setCurrentPage(selected + 1);
+  };
 
   return (
     <div className="main">
-      <h1 className="pb-3 px-3">
-        Upcoming popular games in {selectedMonth} 2023
-      </h1>
-      <div className="months-container pb-3 px-3">
-        {months.map((month, index) => (
-          <Button
-            style={{
-              fontFamily: "andale mono, monospace",
-            }}
-            variant="dark"
-            key={index}
-            className={selectedMonth === month ? "active" : ""}
-            onClick={() => setSelectedMonth(month)}
-          >
-            {month}
-          </Button>
-        ))}
+      <h1 className="pb-3 px-3">Top 100 Games All Time</h1>
+      <div className="pagination-container pb-3 px-3">
+        <ReactPaginate
+          previousLabel={"Previous"}
+          nextLabel={"Next"}
+          pageCount={5}
+          onPageChange={changePage}
+          containerClassName={"paginationButtons"}
+          previousLinkClassName={"previousButton"}
+          nextLinkClassName={"nextButton"}
+          disabledClassName={"paginationDisabled"}
+          activeClassName={"paginationActive"}
+        />
       </div>
-
-      {upcomingGames.length === 0 ? (
+      {topGames.length === 0 ? (
         <div className="no-data-found">No data found</div>
       ) : (
         <div className="card-containers">
-          {upcomingGames.map((games, index) => {
+          {topGames.map((games) => {
             return (
               <Card className="card" style={{ width: "18rem" }}>
                 <Card.Img
@@ -186,4 +151,5 @@ function Upcoming() {
     </div>
   );
 }
-export default Upcoming;
+
+export default Top100;

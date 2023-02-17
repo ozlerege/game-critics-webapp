@@ -5,13 +5,13 @@ import SignUp from "./components/SignUp.js";
 import HomePage from "./components/HomePage";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-
+import Top100 from "./components/Top100.js";
 import logo from "./components/pictures/logo.png";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Upcoming from "./components/Upcoming";
 import "./components/styles/nav_style.css";
-
+import GameDesc from "./components/GameDesc";
 function App() {
   const location = useLocation();
 
@@ -57,6 +57,9 @@ function App() {
                   <Nav.Link href="/trending">Trending</Nav.Link>
                 </li>
                 <li className="nav-item">
+                  <Nav.Link href="/top100">Top 100</Nav.Link>
+                </li>
+                <li className="nav-item">
                   <Nav.Link href="/profile">Profile</Nav.Link>
                 </li>
               </ul>
@@ -80,6 +83,8 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/homepage" element={<HomePage />} />
         <Route path="/upcoming" element={<Upcoming />} />
+        <Route path="/top100" element={<Top100 />} />
+        <Route path="/gameinfo" element={<GameDesc />} />
       </Routes>
     </div>
   );

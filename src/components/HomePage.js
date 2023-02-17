@@ -12,8 +12,8 @@ function HomePage() {
   const [latestGames, setLatestGames] = useState([]);
   const [selectedPlatform, setSelectedPlatform] = useState("");
 
-  const my_key = config.API_KEY;
   useEffect(() => {
+    const my_key = config.API_KEY;
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
       .toISOString()
       .slice(0, 10);
@@ -26,6 +26,7 @@ function HomePage() {
   }, [selectedPlatform]);
 
   const handlePlatformClick = (event) => {
+    const my_key = config.API_KEY;
     fetch(`https://api.rawg.io/api/platforms?key=${my_key}`)
       .then((response) => response.json())
       .then((data) => {
