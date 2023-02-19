@@ -1,5 +1,6 @@
 import "./App.css";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Login from "./components/Login.js";
 import SignUp from "./components/SignUp.js";
 import HomePage from "./components/HomePage";
@@ -57,7 +58,7 @@ function App() {
                   <Nav.Link href="/trending">Trending</Nav.Link>
                 </li>
                 <li className="nav-item">
-                  <Nav.Link href="/top100">Top 100</Nav.Link>
+                  <Nav.Link href="/top100/page/1">Top 100</Nav.Link>
                 </li>
                 <li className="nav-item">
                   <Nav.Link href="/profile">Profile</Nav.Link>
@@ -79,12 +80,13 @@ function App() {
       )}
 
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route exact path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/homepage" element={<HomePage />} />
         <Route path="/upcoming" element={<Upcoming />} />
-        <Route path="/top100" element={<Top100 />} />
-        <Route path="/gameinfo" element={<GameDesc />} />
+        <Route path="/top100/page/:pageNumber" element={<Top100 />} />
+        <Route path="/gameinfo/:gameID" element={<GameDesc />} />
+        <Route path="*" element={<h1>404 - Not Found</h1>} />
       </Routes>
     </div>
   );

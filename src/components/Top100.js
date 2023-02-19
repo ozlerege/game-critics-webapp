@@ -1,5 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import Button from "react-bootstrap/Button";
 import "./styles/homepage.css";
 import Card from "react-bootstrap/Card";
@@ -10,8 +12,9 @@ import ReactPaginate from "react-paginate";
 function Top100() {
   const [topGames, setTopGames] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+  var { pageNumber } = useParams();
   const gamePerPage = 20;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const my_key = config.API_KEY;
@@ -20,19 +23,26 @@ function Top100() {
     fetch(url)
       .then((response) => response.json())
       .then((response) => {
+        console.log(response.results);
         setTopGames(response.results);
-        setTotalPages(Math.ceil(response.count / gamePerPage));
       })
       .catch((err) => console.error(err));
   }, [currentPage]);
 
   const changePage = ({ selected }) => {
-    setCurrentPage(selected + 1);
+    const nextPage = selected + 1;
+    pageNumber = nextPage;
+    setCurrentPage(nextPage);
+    navigate(`/top100/page/${pageNumber}`);
+  };
+  const handleClick = (gameId) => {
+    console.log("Game Id: ", gameId);
+    navigate(`/gameinfo/${gameId}`);
   };
 
   return (
     <div className="main">
-      <h1 className="pb-3 px-3">Top 100 Games All Time</h1>
+      <h1 className="pb-3 px-3">Top 100 Games of All Time</h1>
       <div className="pagination-container pb-3 px-3">
         <ReactPaginate
           previousLabel={"Previous"}
@@ -82,6 +92,17 @@ function Top100() {
                             fontSize: "20px",
                           }}
                         >
+                          MetaCritic Score:
+                        </span>{" "}
+                        {games.metacritic}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <span
+                          style={{
+                            fontFamily: "Staatliches",
+                            fontSize: "20px",
+                          }}
+                        >
                           Genre:
                         </span>{" "}
                         {games.genres.map((genre) => genre.name).join(", ")}{" "}
@@ -121,6 +142,7 @@ function Top100() {
                     <Button
                       variant="dark"
                       className="button-edit"
+                      onClick={() => handleClick(games.id)}
                       style={{
                         marginTop: "auto",
                         marginLeft: "auto",

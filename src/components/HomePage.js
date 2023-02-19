@@ -21,7 +21,11 @@ function HomePage() {
     const url = `https://api.rawg.io/api/games?key=${my_key}&dates=${thirtyDaysAgo},${today}&ordering=-added${selectedPlatform}`;
     fetch(url)
       .then((response) => response.json())
-      .then((response) => setLatestGames(response.results))
+      .then((response) => {
+        setLatestGames(response.results);
+        console.log(response);
+      })
+
       .catch((err) => console.error(err));
   }, [selectedPlatform]);
 

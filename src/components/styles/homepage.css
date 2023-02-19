@@ -73,13 +73,13 @@ h1 {
   padding: 8px 16px;
   text-decoration: none;
   border-radius: 5px;
-  font-family: "andale mono, monospace";
+  font-family: "Staatliches";
 }
 .nextButton,
 .previousButton {
   text-decoration: none;
   color: black;
-  font-family: "andale mono, monospace";
+  font-family: "Staatliches";
 }
 
 .paginationActive {
