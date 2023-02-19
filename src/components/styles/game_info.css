@@ -18,3 +18,17 @@
 .container {
   border: none;
 }
+.screenshots-container {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 5px;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+.screenshot-image {
+  max-width: 200px;
+  max-height: 200px;
+  width: auto;
+  height: auto;
+}
