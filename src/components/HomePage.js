@@ -18,7 +18,7 @@ function HomePage() {
       .toISOString()
       .slice(0, 10);
     const today = new Date().toISOString().slice(0, 10);
-    const url = `https://api.rawg.io/api/games?key=${my_key}&dates=${thirtyDaysAgo},${today}&ordering=-added${selectedPlatform}`;
+    const url = `https:api.rawg.io/api/games?key=${my_key}&dates=${thirtyDaysAgo},${today}&ordering=-added${selectedPlatform}`;
     fetch(url)
       .then((response) => response.json())
       .then((response) => {

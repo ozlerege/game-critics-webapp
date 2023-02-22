@@ -192,7 +192,11 @@ function SignUp() {
             </Form>
           </div>
           <div className="col-lg-6 d-flex justify-content-center align-items-center">
-            <img src={login_pic} className="img-fluid" alt="logo" />
+            <img
+              src={login_pic}
+              alt="logo"
+              style={{ width: "100%", height: "auto" }}
+            />
           </div>
         </div>
       </div>
