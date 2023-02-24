@@ -3,7 +3,6 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import logo from "./pictures/logo.png";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "./styles/nav_style.css";
 function Layout() {
@@ -28,52 +27,39 @@ function Layout() {
     <div>
       {location.pathname !== "/" && location.pathname !== "/signup" && (
         <Navbar
-          className="navbar navbar-expand-lg bg-body-tertiary"
           bg="dark"
           variant="dark"
+          expand="lg"
+          className="navbar navbar-expand-lg bg-body-tertiary"
         >
-          <div className="container-fluid">
-            <a className="navbar-brand" href="/homepage">
-              <img
-                src={logo}
-                alt="Logo"
-                width="30"
-                height="24"
-                class="d-inline-block align-text-top"
+          <Navbar.Brand href="/homepage" className="navbar-brand">
+            GameCritics
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav" className="collapse">
+            <Nav className="me-auto">
+              <Nav.Link
+                className="nav-item"
+                href={`/upcoming/month/${currentMonthName}`}
+              >
+                Upcoming
+              </Nav.Link>
+              <Nav.Link className="nav-item" href="/top100/page/1">
+                Top 100
+              </Nav.Link>
+              <Nav.Link className="nav-item" href="/profile">
+                Profile
+              </Nav.Link>
+            </Nav>
+            <Form className="d-flex">
+              <Form.Control
+                type="search"
+                placeholder="Search"
+                className="me-2"
+                aria-label="Search"
               />
-              GameCritics
-            </a>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
-            >
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <Nav.Link href={`/upcoming/month/${currentMonthName}`}>
-                    Upcoming
-                  </Nav.Link>
-                </li>
-                <li className="nav-item">
-                  <Nav.Link href="/top100/page/1">Top 100</Nav.Link>
-                </li>
-                <li className="nav-item">
-                  <Nav.Link href="/profile">Profile</Nav.Link>
-                </li>
-              </ul>
-              <Form className="d-flex" role="search">
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Search a Game"
-                  aria-label="Search"
-                  required
-                  minLength="3"
-                  style={{ width: "200px" }}
-                ></input>
-              </Form>
-            </div>
-          </div>
+            </Form>
+          </Navbar.Collapse>
         </Navbar>
       )}
     </div>

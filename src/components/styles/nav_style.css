@@ -1,27 +1,33 @@
 @import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
 .navbar-brand {
   font-family: "Staatliches";
-  padding-right: 3%;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 25px;
 }
 .navbar-toggler {
-  background-color: white;
+  background-color: black;
+  margin-right: 20px;
 }
 .navbar-nav {
   font-family: "Staatliches";
   color: white;
 }
-input[type="search"] {
+.me-2 {
   font-family: "Staatliches";
   color: black !important;
   border: 3px solid white;
   font-size: 14px;
-  width: "%20" !important;
+  width: 200px;
 }
 .nav-item:hover {
   background-color: black;
   border-radius: 8px;
 }
-li {
-  font-size: 20px;
+.nav-item {
+  font-size: 18px;
+  color: white;
   margin-right: 20px;
+  text-align: center;
+  font-family: andale mono, monospace;
 }
