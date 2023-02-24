@@ -8,6 +8,22 @@ import Form from "react-bootstrap/Form";
 import "./styles/nav_style.css";
 function Layout() {
   const location = useLocation();
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const today = new Date();
+  const currentMonthName = months[today.getMonth()];
   return (
     <div>
       {location.pathname !== "/" && location.pathname !== "/signup" && (
@@ -17,7 +33,7 @@ function Layout() {
           variant="dark"
         >
           <div className="container-fluid">
-            <a class="navbar-brand" href="/homepage">
+            <a className="navbar-brand" href="/homepage">
               <img
                 src={logo}
                 alt="Logo"
@@ -27,24 +43,16 @@ function Layout() {
               />
               GameCritics
             </a>
-            <Button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span class="navbar-toggler-icon"></span>
-            </Button>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <div
               className="collapse navbar-collapse"
               id="navbarSupportedContent"
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <Nav.Link href="/upcoming">Upcoming</Nav.Link>
+                  <Nav.Link href={`/upcoming/month/${currentMonthName}`}>
+                    Upcoming
+                  </Nav.Link>
                 </li>
                 <li className="nav-item">
                   <Nav.Link href="/top100/page/1">Top 100</Nav.Link>
@@ -61,6 +69,7 @@ function Layout() {
                   aria-label="Search"
                   required
                   minLength="3"
+                  style={{ width: "200px" }}
                 ></input>
               </Form>
             </div>

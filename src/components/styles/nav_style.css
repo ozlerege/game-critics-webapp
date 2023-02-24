@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
 .navbar-brand {
   font-family: "Staatliches";
+  padding-right: 3%;
 }
 .navbar-toggler {
   background-color: white;
@@ -14,4 +15,13 @@ input[type="search"] {
   color: black !important;
   border: 3px solid white;
   font-size: 14px;
+  width: "%20" !important;
+}
+.nav-item:hover {
+  background-color: black;
+  border-radius: 8px;
+}
+li {
+  font-size: 20px;
+  margin-right: 20px;
 }

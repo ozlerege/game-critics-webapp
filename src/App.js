@@ -18,7 +18,7 @@ function App() {
         <Route exact path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/homepage" element={<HomePage />} />
-        <Route path="/upcoming" element={<Upcoming />} />
+        <Route path="/upcoming/month/:getMonth" element={<Upcoming />} />
         <Route path="/top100/page/:pageNumber" element={<Top100 />} />
         <Route path="/gameinfo/:gameID" element={<GameDesc />} />
         <Route path="*" element={<h1>404 - Not Found</h1>} />

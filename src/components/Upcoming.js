@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import "./styles/homepage.css";
 import Card from "react-bootstrap/Card";
@@ -7,6 +8,12 @@ import ListGroup from "react-bootstrap/ListGroup";
 import config from "./config.js";
 
 function Upcoming() {
+  var { getMonth } = useParams();
+  const navigate = useNavigate();
+  const handleClick = (gameId) => {
+    console.log("Game Id: ", gameId);
+    navigate(`/gameinfo/${gameId}`);
+  };
   const [upcomingGames, setUpcomingGames] = useState([]);
   const months = [
     "Jan",
@@ -22,8 +29,9 @@ function Upcoming() {
     "Nov",
     "Dec",
   ];
-
-  const [selectedMonth, setSelectedMonth] = useState("Feb");
+  const today = new Date();
+  const currentMonthName = months[today.getMonth()];
+  const [selectedMonth, setSelectedMonth] = useState(currentMonthName);
 
   useEffect(() => {
     const my_key = config.API_KEY;
@@ -41,14 +49,14 @@ function Upcoming() {
       Nov: "11",
       Dec: "12",
     };
-    const year = 2023;
+
     const month = monthToNumber[selectedMonth];
-    const startDate = `${year}-${month.toString().padStart(2, "0")}-01`;
-    const endDate = `${year}-${month.toString().padStart(2, "0")}-${new Date(
-      year,
-      month,
-      0
-    ).getDate()}`;
+    const startDate = `${today.getFullYear()}-${month
+      .toString()
+      .padStart(2, "0")}-01`;
+    const endDate = `${today.getFullYear()}-${month
+      .toString()
+      .padStart(2, "0")}-${new Date(today.getFullYear(), month, 0).getDate()}`;
     const url = `https://api.rawg.io/api/games?key=${my_key}&dates=${startDate},${endDate}&order=released`;
 
     fetch(url)
@@ -59,11 +67,14 @@ function Upcoming() {
       })
       .catch((err) => console.error(err));
   }, [selectedMonth]);
-
+  const changeMonth = (month) => {
+    setSelectedMonth(month);
+    navigate(`/upcoming/month/${month}`);
+  };
   return (
     <div className="main">
       <h1 className="pb-3 px-3">
-        Upcoming popular games in {selectedMonth} 2023
+        Upcoming popular games in {selectedMonth} {today.getFullYear()}
       </h1>
       <div className="months-container pb-3 px-3">
         {months.map((month, index) => (
@@ -74,7 +85,7 @@ function Upcoming() {
             variant="dark"
             key={index}
             className={selectedMonth === month ? "active" : ""}
-            onClick={() => setSelectedMonth(month)}
+            onClick={() => changeMonth(month)}
           >
             {month}
           </Button>
@@ -156,6 +167,7 @@ function Upcoming() {
                     <Button
                       variant="dark"
                       className="button-edit"
+                      onClick={() => handleClick(games.id)}
                       style={{
                         marginTop: "auto",
                         marginLeft: "auto",
