@@ -47,6 +47,9 @@ function Layout() {
               <Nav.Link className="nav-item" href="/top100/page/1">
                 Top 100
               </Nav.Link>
+              <Nav.Link className="nav-item" href="/recommend">
+                Recommend
+              </Nav.Link>
               <Nav.Link className="nav-item" href="/profile">
                 Profile
               </Nav.Link>
