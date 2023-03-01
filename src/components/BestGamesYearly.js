@@ -6,97 +6,56 @@ import "./styles/homepage.css";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import config from "./config.js";
-
-function Upcoming() {
-  var { getMonth } = useParams();
+import ReactPaginate from "react-paginate";
+function BestGamesYearly() {
+  const [gamesList, setGamesList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  var { pageNumber } = useParams();
   const navigate = useNavigate();
-  const handleClick = (gameId) => {
-    console.log("Game Id: ", gameId);
-    navigate(`/gameinfo/${gameId}`);
-  };
-  const [upcomingGames, setUpcomingGames] = useState([]);
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
   const today = new Date();
-  const currentMonthName = months[today.getMonth()];
-  const [selectedMonth, setSelectedMonth] = useState(currentMonthName);
-
   useEffect(() => {
     const my_key = config.API_KEY;
-    const monthToNumber = {
-      Jan: "01",
-      Feb: "02",
-      Mar: "03",
-      Apr: "04",
-      May: "05",
-      Jun: "06",
-      Jul: "07",
-      Aug: "08",
-      Sep: "09",
-      Oct: "10",
-      Nov: "11",
-      Dec: "12",
-    };
-
-    const month = monthToNumber[selectedMonth];
-    const startDate = `${today.getFullYear()}-${month
-      .toString()
-      .padStart(2, "0")}-01`;
-    const endDate = `${today.getFullYear()}-${month
-      .toString()
-      .padStart(2, "0")}-${new Date(today.getFullYear(), month, 0).getDate()}`;
-    const url = `https://api.rawg.io/api/games?key=${my_key}&dates=${startDate},${endDate}&order=released`;
+    const url = `https://api.rawg.io/api/games?key=${my_key}&dates=${
+      today.getFullYear() - 1
+    }-01-01,${today.getFullYear() - 1}-12-31&page=${currentPage}`;
 
     fetch(url)
       .then((response) => response.json())
       .then((response) => {
-        setUpcomingGames(response.results);
-        console.log("Total ", response);
+        setGamesList(
+          response.results.sort((a, b) => b.metacritic - a.metacritic)
+        );
+
+        console.log(response);
       })
-      .catch((err) => console.error(err));
-  }, [selectedMonth]);
-  const changeMonth = (month) => {
-    setSelectedMonth(month);
-    navigate(`/upcoming/month/${month}`);
+
+      .catch((err) => console.log(err));
+  }, [currentPage]);
+
+  const changePage = ({ selected }) => {
+    const nextPage = selected + 1;
+    pageNumber = nextPage;
+    setCurrentPage(nextPage);
+    navigate(`/best-in-year/page/${pageNumber}`);
+    window.scroll(0, 0);
+  };
+  const handleClick = (gameId) => {
+    console.log("Game Id: ", gameId);
+    navigate(`/gameinfo/${gameId}`);
   };
   return (
     <div className="main">
-      <h1 className="pb-3 px-3">
-        Upcoming popular games in {selectedMonth} {today.getFullYear()}
-      </h1>
-      <div className="months-container pb-3 px-3">
-        {months.map((month, index) => (
-          <Button
-            style={{
-              fontFamily: "andale mono, monospace",
-            }}
-            variant="dark"
-            key={index}
-            className={selectedMonth === month ? "active" : ""}
-            onClick={() => changeMonth(month)}
-          >
-            {month}
-          </Button>
-        ))}
-      </div>
-
-      {upcomingGames.length === 0 ? (
-        <div className="no-data-found">No data found</div>
+      <h1 className="pb-3 px-3">Best games in {today.getFullYear() - 1}</h1>
+      {gamesList.length === 0 ? (
+        <div
+          className="
+        no-data-found"
+        >
+          No Data Found
+        </div>
       ) : (
         <div className="card-containers">
-          {upcomingGames.map((games, index) => {
+          {gamesList.slice(0, 100).map((games) => {
             return (
               <Card className="card" style={{ width: "18rem" }}>
                 <Card.Img
@@ -121,6 +80,17 @@ function Upcoming() {
                       variant="flush"
                       style={{ fontFamily: "andale mono, monospace" }}
                     >
+                      <ListGroup.Item>
+                        <span
+                          style={{
+                            fontFamily: "Staatliches",
+                            fontSize: "20px",
+                          }}
+                        >
+                          MetaCritic Score:
+                        </span>{" "}
+                        {games.metacritic}
+                      </ListGroup.Item>
                       <ListGroup.Item>
                         <span
                           style={{
@@ -195,7 +165,20 @@ function Upcoming() {
           })}
         </div>
       )}
+      <div className="pagination-container pb-3 py-3">
+        <ReactPaginate
+          previousLabel={"Previous"}
+          nextLabel={"Next"}
+          pageCount={10}
+          onPageChange={changePage}
+          containerClassName={"paginationButtons"}
+          previousLinkClassName={"previousButton"}
+          nextLinkClassName={"nextButton"}
+          disabledClassName={"paginationDisabled"}
+          activeClassName={"paginationActive"}
+        />
+      </div>
     </div>
   );
 }
-export default Upcoming;
+export default BestGamesYearly;

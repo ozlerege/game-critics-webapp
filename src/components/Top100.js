@@ -34,6 +34,7 @@ function Top100() {
     pageNumber = nextPage;
     setCurrentPage(nextPage);
     navigate(`/top100/page/${pageNumber}`);
+    window.scroll(0, 0);
   };
   const handleClick = (gameId) => {
     console.log("Game Id: ", gameId);
@@ -43,19 +44,7 @@ function Top100() {
   return (
     <div className="main">
       <h1 className="pb-3 px-3">Top 100 Games of All Time</h1>
-      <div className="pagination-container pb-3 px-3">
-        <ReactPaginate
-          previousLabel={"Previous"}
-          nextLabel={"Next"}
-          pageCount={5}
-          onPageChange={changePage}
-          containerClassName={"paginationButtons"}
-          previousLinkClassName={"previousButton"}
-          nextLinkClassName={"nextButton"}
-          disabledClassName={"paginationDisabled"}
-          activeClassName={"paginationActive"}
-        />
-      </div>
+
       {topGames.length === 0 ? (
         <div className="no-data-found">No data found</div>
       ) : (
@@ -170,6 +159,19 @@ function Top100() {
           })}
         </div>
       )}
+      <div className="pagination-container pb-3 py-3">
+        <ReactPaginate
+          previousLabel={"Previous"}
+          nextLabel={"Next"}
+          pageCount={5}
+          onPageChange={changePage}
+          containerClassName={"paginationButtons"}
+          previousLinkClassName={"previousButton"}
+          nextLinkClassName={"nextButton"}
+          disabledClassName={"paginationDisabled"}
+          activeClassName={"paginationActive"}
+        />
+      </div>
     </div>
   );
 }

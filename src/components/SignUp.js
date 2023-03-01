@@ -106,7 +106,7 @@ function SignUp() {
                   style={{
                     color: "red",
                     padding: "10px",
-                    "font-family": "andale mono, monospace",
+                    fontFamily: "andale mono, monospace",
                   }}
                 >
                   Password length is not between 3 and 20!
@@ -117,7 +117,7 @@ function SignUp() {
                   style={{
                     color: "green",
                     padding: "10px",
-                    "font-family": "andale mono, monospace",
+                    fontFamily: "andale mono, monospace",
                   }}
                 >
                   Password match!
@@ -127,7 +127,7 @@ function SignUp() {
                   style={{
                     color: "red",
                     padding: "10px",
-                    "font-family": "andale mono, monospace",
+                    fontFamily: "andale mono, monospace",
                   }}
                 >
                   Password do not match!
@@ -161,7 +161,7 @@ function SignUp() {
                   onChange={handlePlatform}
                   required
                 >
-                  <option selected>Select platform</option>
+                  <option defaultValue>Select platform</option>
                   <option value="Xbox">Xbox</option>
                   <option value="Playstation">Playstation</option>
                   <option value="PC">PC</option>
