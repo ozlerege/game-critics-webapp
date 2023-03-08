@@ -1,11 +1,14 @@
 import Nav from "react-bootstrap/Nav";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
-import logo from "./pictures/logo.png";
+import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import "./styles/nav_style.css";
+import { Button } from "react-bootstrap";
+
 function Layout() {
+  const navigate = useNavigate();
   const location = useLocation();
   const months = [
     "Jan",
@@ -23,6 +26,17 @@ function Layout() {
   ];
   const today = new Date();
   const currentMonthName = months[today.getMonth()];
+
+  const handleLogOut = () => {
+    fetch("/logout")
+      .then((response) => response.json())
+      .then((data) => {
+        // Do something with the user data
+
+        navigate("/");
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <div>
       {location.pathname !== "/" && location.pathname !== "/signup" && (
@@ -61,6 +75,10 @@ function Layout() {
                 className="me-2"
                 aria-label="Search"
               />
+
+              <Button variant="danger" onClick={handleLogOut}>
+                Log Out
+              </Button>
             </Form>
           </Navbar.Collapse>
         </Navbar>

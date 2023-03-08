@@ -5,10 +5,11 @@ import Button from "react-bootstrap/Button";
 import login_pic from "./pictures/login_pic.png";
 import "./styles/auth_style.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
   const handleUsername = (event) => {
     setUsername(event.target.value);
     console.log(username);
@@ -29,8 +30,29 @@ function Login() {
       alert("Please enter your username");
     } else {
       //Perform auth
-
-      console.log("Username: ", username, " Password: ", password);
+      const user_data = {
+        username: username,
+        password: password,
+      };
+      fetch("/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user_data),
+      })
+        .then((response) => response.json()) // added .text() to log response body
+        .then((data) => {
+          console.log("Success:", data);
+          if (data.user_exist === true) {
+            navigate("/homepage");
+          } else {
+            navigate("/signup");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
   };
 
@@ -42,7 +64,7 @@ function Login() {
             <div className="h-row">
               <h2>Login</h2>
             </div>
-            <Form>
+            <Form onSubmit={submitHandler}>
               <Form.Label>Username</Form.Label>
               <div className="form-row my-2 pb-2">
                 <Form.Control
@@ -68,11 +90,7 @@ function Login() {
                 ></Form.Control>
               </div>
               <div className="form-row mt-4 pb-4">
-                <Button
-                  type="submit"
-                  variant="outline-dark"
-                  onSubmit={submitHandler}
-                >
+                <Button type="submit" variant="outline-dark">
                   Login
                 </Button>
               </div>

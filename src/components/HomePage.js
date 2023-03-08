@@ -11,6 +11,7 @@ function HomePage() {
   const [latestGames, setLatestGames] = useState([]);
   const last_year = new Date().getFullYear() - 1;
   const navigate = useNavigate();
+  const [current_user, setCurrentUser] = useState("");
   useEffect(() => {
     const today = new Date().toISOString().slice(0, 10);
 
@@ -19,6 +20,21 @@ function HomePage() {
       .slice(0, 10);
     const my_key = config.API_KEY;
     const url = `https://api.rawg.io/api/games?key=${my_key}&dates=${thirtyDaysAgo},${today}&ordered=rating`;
+
+    fetch("/homepage", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Do something with the user data
+        console.log("current user data: ", data.current_user);
+        setCurrentUser(data.current_user);
+      })
+      .catch((error) => console.log(error));
+
     fetch(url)
       .then((response) => response.json())
       .then((response) => {
@@ -32,7 +48,7 @@ function HomePage() {
   };
   return (
     <div className="main">
-      <h1 className="pb-3 px-3">Welcome to GameCritics ozlerrege</h1>
+      <h1 className="pb-3 px-3">Welcome to GameCritics {current_user}</h1>
       <ListGroup>
         <h3>Check out the latest releases</h3>
         <div class="card-containers">

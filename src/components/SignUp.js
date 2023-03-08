@@ -5,14 +5,14 @@ import Button from "react-bootstrap/Button";
 import login_pic from "./pictures/login_pic.png";
 import "./styles/auth_style.css";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirm_password, setConfirmPassword] = useState("");
   const [genre, setGenre] = useState("");
   const [platform, setPlatform] = useState("");
-
+  const navigate = useNavigate();
   const handleUsername = (event) => {
     setUsername(event.target.value);
   };
@@ -28,21 +28,43 @@ function SignUp() {
   const handlePlatform = (event) => {
     setPlatform(event.target.value);
   };
-
+  const [check_user, setCheckUser] = useState(false);
   const submitHandler = (event) => {
     event.preventDefault();
+
     if (username === "") {
       alert("wrong data");
     } else {
       const data = {
-        username: { username },
-        password: { password },
-        genre: { genre },
-        platform: { platform },
+        username: username,
+        password: password,
+        genre: genre,
+        platform: platform,
       };
       console.log(data);
+
+      fetch("/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data);
+          if (data.user_exist === true) {
+            setCheckUser(true);
+          } else {
+            navigate("/homepage");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
   };
+
   const pass_length_check = password.length >= 3 && password.length <= 20;
   const pass_match_check = password.length > 0 && password === confirm_password;
   return (
@@ -65,6 +87,14 @@ function SignUp() {
                   minLength={3}
                   maxLength={20}
                 ></Form.Control>
+                {check_user === true ? (
+                  <div className="alert alert-danger mt-3" role="alert">
+                    This username already exists. Please choose a different
+                    username.
+                  </div>
+                ) : (
+                  <div></div>
+                )}
               </div>
               <Form.Label>Password</Form.Label>
               <div className="form-row my-2 pb-2">
@@ -120,7 +150,7 @@ function SignUp() {
                     fontFamily: "andale mono, monospace",
                   }}
                 >
-                  Password match!
+                  Passwords match!
                 </div>
               ) : (
                 <div
@@ -130,7 +160,7 @@ function SignUp() {
                     fontFamily: "andale mono, monospace",
                   }}
                 >
-                  Password do not match!
+                  Passwords do not match!
                 </div>
               )}
               <div className="form-row mt-4">
