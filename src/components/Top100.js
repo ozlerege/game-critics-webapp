@@ -40,7 +40,16 @@ function Top100() {
     console.log("Game Id: ", gameId);
     navigate(`/gameinfo/${gameId}`);
   };
-
+  const handleFavoritesClick = (gameId) => {
+    const data = { game_id: gameId };
+    fetch("/favorites", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+  };
   return (
     <div className="main">
       <h1 className="pb-3 px-3">Top 100 Games of All Time</h1>
@@ -144,6 +153,7 @@ function Top100() {
                     <Button
                       className="button-edit"
                       variant="warning"
+                      onClick={() => handleFavoritesClick(games.id)}
                       style={{
                         marginTop: "auto",
                         marginLeft: "auto",

@@ -42,6 +42,25 @@ function HomePage() {
       })
       .catch((error) => console.log(error));
   }, []);
+  const handleFavoritesClick = (gameId) => {
+    const data = { game_id: gameId };
+    fetch("/favorites", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to add game to favorites");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        // handle error
+      });
+  };
 
   const handleBestGames = () => {
     navigate("/best-in-year/page/1");
@@ -135,6 +154,7 @@ function HomePage() {
                     <Button
                       className="button-edit"
                       variant="warning"
+                      onClick={() => handleFavoritesClick(games.id)}
                       style={{
                         marginTop: "auto",
                         marginLeft: "auto",
