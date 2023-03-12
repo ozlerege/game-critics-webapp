@@ -44,6 +44,7 @@ function SignUp() {
         password: password,
         genre: genre,
         platform: platform,
+        favorites: [],
       };
       try {
         await createUserWithEmailAndPassword(auth, email, password);

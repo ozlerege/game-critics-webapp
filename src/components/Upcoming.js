@@ -1,14 +1,24 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import "./styles/homepage.css";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import config from "./config.js";
-
+import {
+  doc,
+  updateDoc,
+  collection,
+  where,
+  query,
+  getDocs,
+} from "firebase/firestore";
+import { AuthContext } from "../context/Auth";
+import { getFirestore } from "firebase/firestore";
 function Upcoming() {
-  var { getMonth } = useParams();
+  const db = getFirestore();
+  const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleClick = (gameId) => {
     console.log("Game Id: ", gameId);
@@ -70,6 +80,25 @@ function Upcoming() {
   const changeMonth = (month) => {
     setSelectedMonth(month);
     navigate(`/upcoming/month/${month}`);
+  };
+
+  const handleFavorites = async (gameId) => {
+    // Retrieve the user document from Firestore using the email address
+    const usersRef = collection(db, "users");
+    const querySnapshot = await getDocs(
+      query(usersRef, where("email", "==", currentUser))
+    );
+    const userDoc = querySnapshot.docs[0];
+
+    // Update the favorites array by adding the new gameId to it
+    const favorites = userDoc.data().favorites;
+    favorites.push(gameId);
+
+    // Update the user document in Firestore with the new favorites array
+    await updateDoc(doc(usersRef, userDoc.id), {
+      favorites: favorites,
+    });
+    alert("The game has added to favorites");
   };
   return (
     <div className="main">
@@ -180,6 +209,7 @@ function Upcoming() {
                     <Button
                       className="button-edit"
                       variant="warning"
+                      onClick={() => handleFavorites(games.id)}
                       style={{
                         marginTop: "auto",
                         marginLeft: "auto",
