@@ -1,14 +1,17 @@
 import Nav from "react-bootstrap/Nav";
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import "./styles/nav_style.css";
 import { Button } from "react-bootstrap";
-
+import { AuthContext } from "../context/Auth";
+import { getAuth, signOut } from "firebase/auth";
 function Layout() {
   const navigate = useNavigate();
+  const auth = getAuth();
+  const { currentUser } = useContext(AuthContext);
   const location = useLocation();
   const months = [
     "Jan",
@@ -28,14 +31,19 @@ function Layout() {
   const currentMonthName = months[today.getMonth()];
 
   const handleLogOut = () => {
-    fetch("/logout")
-      .then((response) => response.json())
-      .then((data) => {
-        // Do something with the user data
-
-        navigate("/");
+    signOut(auth)
+      .then(() => {
+        console.log("Logged Out");
+        navigate("/signup");
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        // An error happened.
+        console.log(error);
+      });
+  };
+
+  const handleLogIn = () => {
+    navigate("/");
   };
   return (
     <div>
@@ -75,10 +83,15 @@ function Layout() {
                 className="me-2"
                 aria-label="Search"
               />
-
-              <Button variant="danger" onClick={handleLogOut}>
-                Log Out
-              </Button>
+              {currentUser !== null ? (
+                <Button variant="danger" onClick={handleLogOut}>
+                  Log Out
+                </Button>
+              ) : (
+                <Button variant="success" onClick={handleLogIn}>
+                  Log In
+                </Button>
+              )}
             </Form>
           </Navbar.Collapse>
         </Navbar>

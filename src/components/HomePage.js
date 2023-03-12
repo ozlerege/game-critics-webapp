@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import Button from "react-bootstrap/Button";
 import "./styles/homepage.css";
@@ -7,11 +7,14 @@ import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import config from "./config.js";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/Auth";
+
 function HomePage() {
+  const { currentUser } = useContext(AuthContext);
+  console.log("user: ", currentUser);
   const [latestGames, setLatestGames] = useState([]);
   const last_year = new Date().getFullYear() - 1;
   const navigate = useNavigate();
-  const [current_user, setCurrentUser] = useState("");
   useEffect(() => {
     const today = new Date().toISOString().slice(0, 10);
 
@@ -21,20 +24,6 @@ function HomePage() {
     const my_key = config.API_KEY;
     const url = `https://api.rawg.io/api/games?key=${my_key}&dates=${thirtyDaysAgo},${today}&ordered=rating`;
 
-    fetch("/homepage", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Do something with the user data
-        console.log("current user data: ", data.current_user);
-        setCurrentUser(data.current_user);
-      })
-      .catch((error) => console.log(error));
-
     fetch(url)
       .then((response) => response.json())
       .then((response) => {
@@ -42,35 +31,16 @@ function HomePage() {
       })
       .catch((error) => console.log(error));
   }, []);
-  const handleFavoritesClick = (gameId) => {
-    const data = { game_id: gameId };
-    fetch("/favorites", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to add game to favorites");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        // handle error
-      });
-  };
 
   const handleBestGames = () => {
     navigate("/best-in-year/page/1");
   };
   return (
     <div className="main">
-      <h1 className="pb-3 px-3">Welcome to GameCritics {current_user}</h1>
+      <h1 className="pb-3 px-3">Welcome to GameCritics {currentUser}</h1>
       <ListGroup>
         <h3>Check out the latest releases</h3>
-        <div class="card-containers">
+        <div className="card-containers">
           {latestGames.slice(0, 3).map((games, index) => {
             return (
               <Card className="card" style={{ width: "18rem" }}>
@@ -154,7 +124,6 @@ function HomePage() {
                     <Button
                       className="button-edit"
                       variant="warning"
-                      onClick={() => handleFavoritesClick(games.id)}
                       style={{
                         marginTop: "auto",
                         marginLeft: "auto",

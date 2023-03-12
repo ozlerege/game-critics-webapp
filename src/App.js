@@ -11,29 +11,32 @@ import GameDesc from "./components/GameDesc";
 import Layout from "./components/Layout";
 import Profile from "./components/Profile";
 import BestGamesYearly from "./components/BestGamesYearly";
+import { AuthProvider } from "./context/Auth";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Layout />
-        <Routes>
-          <Route exact path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+        <AuthProvider>
+          <Layout />
 
-          <Route path="/homepage" element={<HomePage />} />
-          <Route path="/recommend" element={<Recommend />} />
-          <Route path="/upcoming/month/:getMonth" element={<Upcoming />} />
-          <Route path="/top100/page/:pageNumber" element={<Top100 />} />
-          <Route path="/gameinfo/:gameID" element={<GameDesc />} />
-          <Route
-            path="/best-in-year/page/:pageNumber"
-            element={<BestGamesYearly />}
-          />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="*" element={<h1>404 - Not Found</h1>} />
-        </Routes>
+          <Routes>
+            <Route exact path="/" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+
+            <Route path="/homepage" element={<HomePage />} />
+            <Route path="/recommend" element={<Recommend />} />
+            <Route path="/upcoming/month/:getMonth" element={<Upcoming />} />
+            <Route path="/top100/page/:pageNumber" element={<Top100 />} />
+            <Route path="/gameinfo/:gameID" element={<GameDesc />} />
+            <Route
+              path="/best-in-year/page/:pageNumber"
+              element={<BestGamesYearly />}
+            />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="*" element={<h1>404 - Not Found</h1>} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </div>
   );

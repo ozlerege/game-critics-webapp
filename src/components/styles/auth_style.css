@@ -10,7 +10,7 @@ body {
   padding: 0;
 }
 .img-fluid {
-  border-radius: 10px;
+  border-radius: 15px;
 }
 h2 {
   font-family: andale mono, monospace;
@@ -29,7 +29,7 @@ input[type="password"] {
   border: 2px solid black;
   font-family: andale mono, monospace;
 }
-input[type="text"] {
+input[type="email"] {
   border-radius: 8px;
   border: 2px solid black;
   font-family: andale mono, monospace;

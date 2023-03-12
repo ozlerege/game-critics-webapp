@@ -6,15 +6,21 @@ import login_pic from "./pictures/login_pic.png";
 import "./styles/auth_style.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 function SignUp() {
-  const [username, setUsername] = useState("");
+  const auth = getAuth();
+  const db = getFirestore();
+  const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm_password, setConfirmPassword] = useState("");
   const [genre, setGenre] = useState("");
   const [platform, setPlatform] = useState("");
   const navigate = useNavigate();
-  const handleUsername = (event) => {
-    setUsername(event.target.value);
+  const handleemail = (event) => {
+    setemail(event.target.value);
   };
   const handlePassword = (event) => {
     setPassword(event.target.value);
@@ -28,40 +34,25 @@ function SignUp() {
   const handlePlatform = (event) => {
     setPlatform(event.target.value);
   };
-  const [check_user, setCheckUser] = useState(false);
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
-
-    if (username === "") {
+    if (email === "") {
       alert("wrong data");
     } else {
       const data = {
-        username: username,
+        email: email,
         password: password,
         genre: genre,
         platform: platform,
       };
-      console.log(data);
-
-      fetch("/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Success:", data);
-          if (data.user_exist === true) {
-            setCheckUser(true);
-          } else {
-            navigate("/homepage");
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        const usersRef = collection(db, "users");
+        await addDoc(usersRef, data);
+        navigate("/homepage");
+      } catch (err) {
+        alert(err);
+      }
     }
   };
 
@@ -76,25 +67,17 @@ function SignUp() {
               <h2>Sign Up</h2>
             </div>
             <Form>
-              <Form.Label>Username</Form.Label>
+              <Form.Label>Email</Form.Label>
               <div className="form-row my-2 pb-2">
                 <Form.Control
-                  id="username"
-                  type="text"
+                  id="email"
+                  type="email"
                   required
-                  value={username}
-                  onChange={handleUsername}
+                  value={email}
+                  onChange={handleemail}
                   minLength={3}
-                  maxLength={20}
+                  maxLength={50}
                 ></Form.Control>
-                {check_user === true ? (
-                  <div className="alert alert-danger mt-3" role="alert">
-                    This username already exists. Please choose a different
-                    username.
-                  </div>
-                ) : (
-                  <div></div>
-                )}
               </div>
               <Form.Label>Password</Form.Label>
               <div className="form-row my-2 pb-2">

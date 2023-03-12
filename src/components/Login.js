@@ -5,55 +5,31 @@ import Button from "react-bootstrap/Button";
 import login_pic from "./pictures/login_pic.png";
 import "./styles/auth_style.css";
 import { Link } from "react-router-dom";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 function Login() {
-  const [username, setUsername] = useState("");
+  const auth = getAuth();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const handleUsername = (event) => {
-    setUsername(event.target.value);
-    console.log(username);
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
   };
 
   const handlePassword = (event) => {
     setPassword(event.target.value);
-    console.log(password);
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
-    if (username === "" && password === "") {
-      alert("Please enter username and password");
-    } else if (username !== "" && password === "") {
-      alert("Please enter your password");
-    } else if (username === "" && password !== "") {
-      alert("Please enter your username");
-    } else {
-      //Perform auth
-      const user_data = {
-        username: username,
-        password: password,
-      };
-      fetch("/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user_data),
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        navigate("/homepage");
       })
-        .then((response) => response.json()) // added .text() to log response body
-        .then((data) => {
-          console.log("Success:", data);
-          if (data.user_exist === true) {
-            navigate("/homepage");
-          } else {
-            navigate("/signup");
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    }
+      .catch((error) => {
+        alert("Credentials have not been found");
+        console.log(error);
+      });
   };
 
   return (
@@ -65,16 +41,16 @@ function Login() {
               <h2>Login</h2>
             </div>
             <Form onSubmit={submitHandler}>
-              <Form.Label>Username</Form.Label>
+              <Form.Label>Email</Form.Label>
               <div className="form-row my-2 pb-2">
                 <Form.Control
-                  id="username"
-                  value={username}
-                  onChange={handleUsername}
-                  type="text"
+                  id="Email"
+                  value={email}
+                  onChange={handleEmail}
+                  type="email"
                   required
                   minLength={3}
-                  maxLength={20}
+                  maxLength={50}
                 ></Form.Control>
               </div>
               <Form.Label>Password</Form.Label>
