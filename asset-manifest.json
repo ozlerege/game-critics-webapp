@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/game-critics-webapp/static/css/main.11a84f16.css",
-    "main.js": "/game-critics-webapp/static/js/main.d89d534c.js",
+    "main.js": "/game-critics-webapp/static/js/main.ef5a0af3.js",
     "static/js/787.9e997e41.chunk.js": "/game-critics-webapp/static/js/787.9e997e41.chunk.js",
     "static/media/login_pic.png": "/game-critics-webapp/static/media/login_pic.470a23d63c2b804fb1d6.png",
     "static/media/upcomingGames.jpeg": "/game-critics-webapp/static/media/upcomingGames.a8f74538776624f04706.jpeg",
@@ -10,11 +10,11 @@
     "static/media/kratos.webp": "/game-critics-webapp/static/media/kratos.719a1a004dccdd5bbda1.webp",
     "index.html": "/game-critics-webapp/index.html",
     "main.11a84f16.css.map": "/game-critics-webapp/static/css/main.11a84f16.css.map",
-    "main.d89d534c.js.map": "/game-critics-webapp/static/js/main.d89d534c.js.map",
+    "main.ef5a0af3.js.map": "/game-critics-webapp/static/js/main.ef5a0af3.js.map",
     "787.9e997e41.chunk.js.map": "/game-critics-webapp/static/js/787.9e997e41.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.11a84f16.css",
-    "static/js/main.d89d534c.js"
+    "static/js/main.ef5a0af3.js"
   ]
 }
