@@ -66,10 +66,7 @@ function Layout() {
           className="navbar navbar-expand-lg bg-body-tertiary"
         >
           <Container fluid>
-            <Navbar.Brand
-              href="game-critics-webapp/homepage"
-              className="navbar-brand"
-            >
+            <Navbar.Brand href="/homepage" className="navbar-brand">
               GameCritics
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -77,26 +74,17 @@ function Layout() {
               <Nav className="me-auto">
                 <Nav.Link
                   className="nav-item"
-                  href={`game-critics-webapp/upcoming/month/${currentMonthName}`}
+                  href={`/upcoming/month/${currentMonthName}`}
                 >
                   Upcoming
                 </Nav.Link>
-                <Nav.Link
-                  className="nav-item"
-                  href="game-critics-webapp/top100/page/1"
-                >
+                <Nav.Link className="nav-item" href="/top100/page/1">
                   Top 100
                 </Nav.Link>
-                <Nav.Link
-                  className="nav-item"
-                  href="game-critics-webapp/recommend"
-                >
+                <Nav.Link className="nav-item" href="/recommend">
                   Recommend
                 </Nav.Link>
-                <Nav.Link
-                  className="nav-item"
-                  href="game-critics-webapp/profile"
-                >
+                <Nav.Link className="nav-item" href="/profile">
                   Profile
                 </Nav.Link>
               </Nav>
