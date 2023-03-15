@@ -19,14 +19,29 @@ function App() {
           <Layout />
 
           <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route path="/game-critics-webapp/" element={<Login />} />
+            <Route path="/game-critics-webapp/signup" element={<SignUp />} />
 
-            <Route path="/homepage" element={<HomePage />} />
-            <Route path="/recommend" element={<Recommend />} />
-            <Route path="/upcoming/month/:getMonth" element={<Upcoming />} />
-            <Route path="/top100/page/:pageNumber" element={<Top100 />} />
-            <Route path="/gameinfo/:gameID" element={<GameDesc />} />
+            <Route
+              path="/game-critics-webapp/homepage"
+              element={<HomePage />}
+            />
+            <Route
+              path="/game-critics-webapp/recommend"
+              element={<Recommend />}
+            />
+            <Route
+              path="/game-critics-webapp/upcoming/month/:getMonth"
+              element={<Upcoming />}
+            />
+            <Route
+              path="/game-critics-webapp/top100/page/:pageNumber"
+              element={<Top100 />}
+            />
+            <Route
+              path="/game-critics-webapp/gameinfo/:gameID"
+              element={<GameDesc />}
+            />
             <Route
               path="/best-in-year/page/:pageNumber"
               element={<BestGamesYearly />}
