@@ -13,14 +13,13 @@ import eldenring from "./pictures/eldenring.jpeg";
 import top100 from "./pictures/top100.jpeg";
 import CardComponent from "./CardComponent";
 import kratos from "./pictures/kratos.webp";
-import { collection, getFirestore } from "firebase/firestore";
-import { getDocs, query, where } from "firebase/firestore";
+
 function HomePage() {
   const { currentUser } = useContext(AuthContext);
-  const db = getFirestore();
+  
 
   const [latestGames, setLatestGames] = useState([]);
-  const [favGames, setFavGames] = useState([]);
+
   const last_year = new Date().getFullYear() - 1;
   const navigate = useNavigate();
   useEffect(() => {
@@ -53,17 +52,7 @@ function HomePage() {
     navigate("/recommend");
   };
 
-  useEffect(() => {
-    const getFavs = async () => {
-      const docRef = collection(db, "users");
-      const docSnap = await getDocs(
-        query(docRef, where("email", "==", currentUser))
-      );
-      setFavGames(docSnap.docs[0].data()["favorites"]);
-      console.log("Favs: ", favGames);
-    };
-    getFavs();
-  }, []);
+  
   return (
     <div className="main">
       <h1 className="pb-3 px-3">
