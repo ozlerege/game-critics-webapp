@@ -128,7 +128,7 @@ function Layout() {
                     className="button"
                     onClick={handleLogIn}
                   >
-                    Log In
+                    Log Ins
                   </Button>
                 )}
               </div>

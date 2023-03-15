@@ -14,7 +14,7 @@ import SearchResults from "./components/SearchResults.js";
 function App() {
   return (
     <div className="App">
-      <HashRouter basename="/">
+      <HashRouter basename="/game-critics-webapp">
         <AuthProvider>
           <Layout />
 
