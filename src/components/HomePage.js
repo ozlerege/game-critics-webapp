@@ -16,7 +16,6 @@ import kratos from "./pictures/kratos.webp";
 
 function HomePage() {
   const { currentUser } = useContext(AuthContext);
-  
 
   const [latestGames, setLatestGames] = useState([]);
 
@@ -52,11 +51,10 @@ function HomePage() {
     navigate("/recommend");
   };
 
-  
   return (
     <div className="main">
       <h1 className="pb-3 px-3">
-        Welcome to GameCritics {currentUser.split("@")[0]}
+        Welcome to GameCritics {currentUser && currentUser.split("@")[0]}
       </h1>
       <ListGroup>
         <h3>Check out the latest releases</h3>
