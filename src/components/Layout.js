@@ -1,5 +1,5 @@
 import Nav from "react-bootstrap/Nav";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import "./styles/nav_style.css";
 import { Button, Container } from "react-bootstrap";
 import { AuthContext } from "../context/Auth";
 import { getAuth, signOut } from "firebase/auth";
-import config from "./config.js";
+
 function Layout() {
   const navigate = useNavigate();
   const auth = getAuth();

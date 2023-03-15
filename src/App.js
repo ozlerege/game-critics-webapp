@@ -1,4 +1,4 @@
-import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/Login.js";
 import SignUp from "./components/SignUp.js";
 import HomePage from "./components/HomePage";
@@ -14,12 +14,12 @@ import SearchResults from "./components/SearchResults.js";
 function App() {
   return (
     <div className="App">
-      <HashRouter basename="/game-critics-webapp">
+      <BrowserRouter basename="/game-critics-webapp">
         <AuthProvider>
           <Layout />
 
           <Routes>
-            <Route exact path="/game-critics-webapp" element={<Login />} />
+            <Route exact path="/" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
 
             <Route path="/homepage" element={<HomePage />} />
@@ -39,7 +39,7 @@ function App() {
             <Route path="*" element={<h1>404 - Not Found</h1>} />
           </Routes>
         </AuthProvider>
-      </HashRouter>
+      </BrowserRouter>
     </div>
   );
 }
