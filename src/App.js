@@ -14,7 +14,7 @@ import SearchResults from "./components/SearchResults.js";
 function App() {
   return (
     <div className="App">
-      <BrowserRouter basename="/">
+      <HashRouter basename="/">
         <AuthProvider>
           <Layout />
 
@@ -39,7 +39,7 @@ function App() {
             <Route path="*" element={<h1>404 - Not Found</h1>} />
           </Routes>
         </AuthProvider>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }
