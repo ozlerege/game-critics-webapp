@@ -20,23 +20,29 @@ function App() {
 
           <Routes>
             <Route exact path="/" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route exact path="/signup" element={<SignUp />} />
 
-            <Route path="/homepage" element={<HomePage />} />
-            <Route path="/recommend" element={<Recommend />} />
-            <Route path="/upcoming/month/:getMonth" element={<Upcoming />} />
-            <Route path="/top100/page/:pageNumber" element={<Top100 />} />
-            <Route path="/gameinfo/:gameID" element={<GameDesc />} />
+            <Route exact path="/homepage" element={<HomePage />} />
+            <Route exact path="/recommend" element={<Recommend />} />
             <Route
+              exact
+              path="/upcoming/month/:getMonth"
+              element={<Upcoming />}
+            />
+            <Route exact path="/top100/page/:pageNumber" element={<Top100 />} />
+            <Route exact path="/gameinfo/:gameID" element={<GameDesc />} />
+            <Route
+              exact
               path="/best-in-year/page/:pageNumber"
               element={<BestGamesYearly />}
             />
             <Route
+              exact
               path="/search/:query"
               element={<SearchResults></SearchResults>}
             />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="*" element={<h1>404 - Not Found</h1>} />
+            <Route exact path="/profile" element={<Profile />} />
+            <Route exact path="*" element={<h1>404 - Not Found</h1>} />
           </Routes>
         </AuthProvider>
       </HashRouter>
