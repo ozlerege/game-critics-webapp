@@ -14,7 +14,7 @@ import SearchResults from "./components/SearchResults.js";
 function App() {
   return (
     <div className="App">
-      <BrowserRouter basename="/game-critics-webapp">
+      <BrowserRouter>
         <AuthProvider>
           <Layout />
 
