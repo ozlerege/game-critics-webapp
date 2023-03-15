@@ -8,11 +8,19 @@ import ListGroup from "react-bootstrap/ListGroup";
 import config from "./config.js";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/Auth";
-
+import img_upcoming from "./pictures/upcomingGames.jpeg";
+import eldenring from "./pictures/eldenring.jpeg";
+import top100 from "./pictures/top100.jpeg";
+import CardComponent from "./CardComponent";
+import kratos from "./pictures/kratos.webp";
+import { collection, getFirestore } from "firebase/firestore";
+import { getDocs, query, where } from "firebase/firestore";
 function HomePage() {
   const { currentUser } = useContext(AuthContext);
-  console.log("user: ", currentUser);
+  const db = getFirestore();
+
   const [latestGames, setLatestGames] = useState([]);
+  const [favGames, setFavGames] = useState([]);
   const last_year = new Date().getFullYear() - 1;
   const navigate = useNavigate();
   useEffect(() => {
@@ -35,112 +43,52 @@ function HomePage() {
   const handleBestGames = () => {
     navigate("/best-in-year/page/1");
   };
+  const handleUpcomingGames = () => {
+    navigate("/upcoming/month/:getMonth");
+  };
+  const handleTop100 = () => {
+    navigate("/top100/page/:pageNumber");
+  };
+  const handleRecommend = () => {
+    navigate("/recommend");
+  };
+
+  useEffect(() => {
+    const getFavs = async () => {
+      const docRef = collection(db, "users");
+      const docSnap = await getDocs(
+        query(docRef, where("email", "==", currentUser))
+      );
+      setFavGames(docSnap.docs[0].data()["favorites"]);
+      console.log("Favs: ", favGames);
+    };
+    getFavs();
+  }, []);
   return (
     <div className="main">
-      <h1 className="pb-3 px-3">Welcome to GameCritics {currentUser}</h1>
+      <h1 className="pb-3 px-3">
+        Welcome to GameCritics {currentUser.split("@")[0]}
+      </h1>
       <ListGroup>
         <h3>Check out the latest releases</h3>
         <div className="card-containers">
-          {latestGames.slice(0, 3).map((games, index) => {
+          {latestGames.slice(0, 3).map((games) => {
             return (
-              <Card className="card" style={{ width: "18rem" }}>
-                <Card.Img
-                  variant="top"
-                  src={games.background_image}
-                  style={{ height: "170px" }}
-                />
-                <Card.Body
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Card.Title
-                    style={{ fontFamily: "Staatliches", fontSize: "30px" }}
-                  >
-                    {games.name}
-                  </Card.Title>
-                  <Card.Text>
-                    <ListGroup
-                      variant="flush"
-                      style={{ fontFamily: "andale mono, monospace" }}
-                    >
-                      <ListGroup.Item>
-                        <span
-                          style={{
-                            fontFamily: "Staatliches",
-                            fontSize: "20px",
-                          }}
-                        >
-                          Genre:
-                        </span>{" "}
-                        {games.genres.map((genre) => genre.name).join(", ")}{" "}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <span
-                          style={{
-                            fontFamily: "Staatliches",
-                            fontSize: "20px",
-                          }}
-                        >
-                          Platforms:
-                        </span>{" "}
-                        {games.platforms
-                          ? games.platforms
-                              .map((platform) => platform.platform.name)
-                              .join(", ")
-                          : "No data"}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <span
-                          style={{
-                            fontFamily: "Staatliches",
-                            fontSize: "20px",
-                          }}
-                        >
-                          Release Date:
-                        </span>{" "}
-                        {games.released}
-                      </ListGroup.Item>
-                    </ListGroup>
-                  </Card.Text>
-                  <div
-                    className="buttons"
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <Button
-                      variant="dark"
-                      className="button-edit"
-                      style={{
-                        marginTop: "auto",
-                        marginLeft: "auto",
-                        fontFamily: "andale mono, monospace",
-                      }}
-                    >
-                      Get Details
-                    </Button>
-
-                    <Button
-                      className="button-edit"
-                      variant="warning"
-                      style={{
-                        marginTop: "auto",
-                        marginLeft: "auto",
-                        fontFamily: "andale mono, monospace",
-                      }}
-                    >
-                      Add to Favorites
-                    </Button>
-                  </div>
-                </Card.Body>
-              </Card>
+              <CardComponent
+                image={games.background_image}
+                title={games.name}
+                genre={games.genres}
+                platform={games.platforms}
+                date={games.released}
+                gameID={games.id}
+                key={games.id}
+              />
             );
           })}
           {latestGames.length > 3 && (
             <Card className="card view-more" style={{ width: "18rem" }}>
               <Card.Body>
-                <Card.Title>View More</Card.Title>
+                <Card.Title className="my-auto">View More</Card.Title>
               </Card.Body>
             </Card>
           )}
@@ -151,7 +99,11 @@ function HomePage() {
         <h3>Browse</h3>
         <div className="card-containers">
           <Card className="card" style={{ width: "18rem" }}>
-            <Card.Img variant="top" style={{ height: "170px" }} />
+            <Card.Img
+              src={img_upcoming}
+              variant="top"
+              style={{ height: "170px" }}
+            />
             <Card.Body
               style={{
                 display: "flex",
@@ -170,7 +122,8 @@ function HomePage() {
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
                 <Button
-                  variant="dark"
+                  variant="primary"
+                  onClick={handleUpcomingGames}
                   className="button-edit"
                   style={{
                     marginTop: "auto",
@@ -178,13 +131,17 @@ function HomePage() {
                     fontFamily: "andale mono, monospace",
                   }}
                 >
-                  Get Details
+                  More
                 </Button>
               </div>
             </Card.Body>
           </Card>
           <Card className="card" style={{ width: "18rem" }}>
-            <Card.Img variant="top" style={{ height: "170px" }} />
+            <Card.Img
+              src={eldenring}
+              variant="top"
+              style={{ height: "170px" }}
+            />
             <Card.Body
               style={{
                 display: "flex",
@@ -203,7 +160,7 @@ function HomePage() {
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
                 <Button
-                  variant="dark"
+                  variant="primary"
                   className="button-edit"
                   onClick={handleBestGames}
                   style={{
@@ -212,13 +169,13 @@ function HomePage() {
                     fontFamily: "andale mono, monospace",
                   }}
                 >
-                  Get Details
+                  More
                 </Button>
               </div>
             </Card.Body>
           </Card>
           <Card className="card" style={{ width: "18rem" }}>
-            <Card.Img variant="top" style={{ height: "170px" }} />
+            <Card.Img src={kratos} variant="top" style={{ height: "170px" }} />
             <Card.Body
               style={{
                 display: "flex",
@@ -237,7 +194,8 @@ function HomePage() {
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
                 <Button
-                  variant="dark"
+                  variant="primary"
+                  onClick={handleRecommend}
                   className="button-edit"
                   style={{
                     marginTop: "auto",
@@ -245,13 +203,13 @@ function HomePage() {
                     fontFamily: "andale mono, monospace",
                   }}
                 >
-                  Get Details
+                  More
                 </Button>
               </div>
             </Card.Body>
           </Card>
           <Card className="card" style={{ width: "18rem" }}>
-            <Card.Img variant="top" style={{ height: "170px" }} />
+            <Card.Img src={top100} variant="top" style={{ height: "170px" }} />
             <Card.Body
               style={{
                 display: "flex",
@@ -270,15 +228,16 @@ function HomePage() {
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
                 <Button
-                  variant="dark"
+                  variant="primary"
                   className="button-edit"
+                  onClick={handleTop100}
                   style={{
                     marginTop: "auto",
                     marginLeft: "auto",
                     fontFamily: "andale mono, monospace",
                   }}
                 >
-                  Get Details
+                  More
                 </Button>
               </div>
             </Card.Body>

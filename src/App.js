@@ -1,5 +1,3 @@
-import "./App.css";
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/Login.js";
 import SignUp from "./components/SignUp.js";
@@ -12,7 +10,7 @@ import Layout from "./components/Layout";
 import Profile from "./components/Profile";
 import BestGamesYearly from "./components/BestGamesYearly";
 import { AuthProvider } from "./context/Auth";
-
+import SearchResults from "./components/SearchResults.js";
 function App() {
   return (
     <div className="App">
@@ -32,6 +30,10 @@ function App() {
             <Route
               path="/best-in-year/page/:pageNumber"
               element={<BestGamesYearly />}
+            />
+            <Route
+              path="/search/:query"
+              element={<SearchResults></SearchResults>}
             />
             <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<h1>404 - Not Found</h1>} />

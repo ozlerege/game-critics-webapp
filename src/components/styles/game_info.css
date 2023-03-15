@@ -54,6 +54,8 @@
 }
 h2 {
   text-align: center;
+  color: black !important;
+  font-size: 40px !important;
 }
 
 @media (min-width: 768px) {

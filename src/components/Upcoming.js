@@ -1,29 +1,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import "./styles/homepage.css";
-import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
 import config from "./config.js";
-import {
-  doc,
-  updateDoc,
-  collection,
-  where,
-  query,
-  getDocs,
-} from "firebase/firestore";
-import { AuthContext } from "../context/Auth";
-import { getFirestore } from "firebase/firestore";
+import CardComponent from "./CardComponent.js";
+import { useNavigate } from "react-router-dom";
 function Upcoming() {
-  const db = getFirestore();
-  const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  const handleClick = (gameId) => {
-    console.log("Game Id: ", gameId);
-    navigate(`/gameinfo/${gameId}`);
-  };
   const [upcomingGames, setUpcomingGames] = useState([]);
   const months = [
     "Jan",
@@ -82,24 +65,6 @@ function Upcoming() {
     navigate(`/upcoming/month/${month}`);
   };
 
-  const handleFavorites = async (gameId) => {
-    // Retrieve the user document from Firestore using the email address
-    const usersRef = collection(db, "users");
-    const querySnapshot = await getDocs(
-      query(usersRef, where("email", "==", currentUser))
-    );
-    const userDoc = querySnapshot.docs[0];
-
-    // Update the favorites array by adding the new gameId to it
-    const favorites = userDoc.data().favorites;
-    favorites.push(gameId);
-
-    // Update the user document in Firestore with the new favorites array
-    await updateDoc(doc(usersRef, userDoc.id), {
-      favorites: favorites,
-    });
-    alert("The game has added to favorites");
-  };
   return (
     <div className="main">
       <h1 className="pb-3 px-3">
@@ -125,102 +90,17 @@ function Upcoming() {
         <div className="no-data-found">No data found</div>
       ) : (
         <div className="card-containers">
-          {upcomingGames.map((games, index) => {
+          {upcomingGames.map((games) => {
             return (
-              <Card className="card" style={{ width: "18rem" }}>
-                <Card.Img
-                  variant="top"
-                  src={games.background_image}
-                  style={{ height: "170px" }}
-                />
-                <Card.Body
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Card.Title
-                    style={{ fontFamily: "Staatliches", fontSize: "30px" }}
-                  >
-                    {games.name}
-                  </Card.Title>
-                  <Card.Text>
-                    <ListGroup
-                      variant="flush"
-                      style={{ fontFamily: "andale mono, monospace" }}
-                    >
-                      <ListGroup.Item>
-                        <span
-                          style={{
-                            fontFamily: "Staatliches",
-                            fontSize: "20px",
-                          }}
-                        >
-                          Genre:
-                        </span>{" "}
-                        {games.genres.map((genre) => genre.name).join(", ")}{" "}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <span
-                          style={{
-                            fontFamily: "Staatliches",
-                            fontSize: "20px",
-                          }}
-                        >
-                          Platforms:
-                        </span>{" "}
-                        {games.platforms
-                          ? games.platforms
-                              .map((platform) => platform.platform.name)
-                              .join(", ")
-                          : "No data"}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <span
-                          style={{
-                            fontFamily: "Staatliches",
-                            fontSize: "20px",
-                          }}
-                        >
-                          Release Date:
-                        </span>{" "}
-                        {games.released}
-                      </ListGroup.Item>
-                    </ListGroup>
-                  </Card.Text>
-                  <div
-                    className="buttons"
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <Button
-                      variant="dark"
-                      className="button-edit"
-                      onClick={() => handleClick(games.id)}
-                      style={{
-                        marginTop: "auto",
-                        marginLeft: "auto",
-                        fontFamily: "andale mono, monospace",
-                      }}
-                    >
-                      Get Details
-                    </Button>
-
-                    <Button
-                      className="button-edit"
-                      variant="warning"
-                      onClick={() => handleFavorites(games.id)}
-                      style={{
-                        marginTop: "auto",
-                        marginLeft: "auto",
-                        fontFamily: "andale mono, monospace",
-                      }}
-                    >
-                      Add to Favorites
-                    </Button>
-                  </div>
-                </Card.Body>
-              </Card>
+              <CardComponent
+                image={games.background_image}
+                title={games.name}
+                genre={games.genres}
+                platform={games.platforms}
+                date={games.released}
+                gameID={games.id}
+                key={games.id}
+              />
             );
           })}
         </div>

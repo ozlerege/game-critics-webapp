@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import config from "./config.js";
 import ListGroup from "react-bootstrap/ListGroup";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
 import "./styles/game_info.css";
-import Card from "react-bootstrap/Card";
 import ReactPaginate from "react-paginate";
+import CardComponent from "./CardComponent.js";
 function GameDesc() {
   const { gameID } = useParams();
-  const navigate = useNavigate();
+
   const [gameDetails, setGameDetails] = useState({});
   const [screenshots, setScreenshots] = useState([]);
   const [series, setSeries] = useState([]);
@@ -65,7 +64,8 @@ function GameDesc() {
       .then((response) => {
         console.log("Series: ", response);
         setSeries(response.results);
-        setSeriesCount(Math.ceil(response.count / 6));
+        setSeriesCount(Math.ceil(response.count / 10));
+        console.log("Series Count: ", seriesCount);
       })
       .catch((err) => console.error(err));
   }, [gameID, currentPage]);
@@ -81,10 +81,7 @@ function GameDesc() {
       })
       .catch((err) => console.error(err));
   }, [gameID]);
-  const handleClick = (gameId) => {
-    navigate(`/gameinfo/${gameId}`);
-    window.scroll(0, 0);
-  };
+
   useEffect(() => {
     const my_key = config.API_KEY;
     const url = `https:api.rawg.io/api/games/${gameID}/additions?key=${my_key}`;
@@ -287,118 +284,15 @@ function GameDesc() {
                 <div className="card-containers">
                   {addition.map((games) => {
                     return (
-                      <Card className="card" style={{ width: "18rem" }}>
-                        <Card.Img
-                          variant="top"
-                          src={games.background_image}
-                          style={{ height: "170px" }}
-                        />
-                        <Card.Body
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Card.Title
-                            style={{
-                              fontFamily: "Staatliches",
-                              fontSize: "30px",
-                            }}
-                          >
-                            {games.name}
-                          </Card.Title>
-                          <Card.Text>
-                            <ListGroup
-                              variant="flush"
-                              style={{ fontFamily: "andale mono, monospace" }}
-                            >
-                              <ListGroup.Item>
-                                <span
-                                  style={{
-                                    fontFamily: "Staatliches",
-                                    fontSize: "20px",
-                                  }}
-                                >
-                                  MetaCritic Score:
-                                </span>{" "}
-                                {games.metacritic}
-                              </ListGroup.Item>
-                              <ListGroup.Item>
-                                <span
-                                  style={{
-                                    fontFamily: "Staatliches",
-                                    fontSize: "20px",
-                                  }}
-                                >
-                                  Genre:
-                                </span>{" "}
-                                {games.genres
-                                  .map((genre) => genre.name)
-                                  .join(", ")}{" "}
-                              </ListGroup.Item>
-                              <ListGroup.Item>
-                                <span
-                                  style={{
-                                    fontFamily: "Staatliches",
-                                    fontSize: "20px",
-                                  }}
-                                >
-                                  Platforms:
-                                </span>{" "}
-                                {games.platforms
-                                  ? games.platforms
-                                      .map((platform) => platform.platform.name)
-                                      .join(", ")
-                                  : "No data"}
-                              </ListGroup.Item>
-                              <ListGroup.Item>
-                                <span
-                                  style={{
-                                    fontFamily: "Staatliches",
-                                    fontSize: "20px",
-                                  }}
-                                >
-                                  Release Date:
-                                </span>{" "}
-                                {games.released}
-                              </ListGroup.Item>
-                            </ListGroup>
-                          </Card.Text>
-                          <div
-                            className="buttons"
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <Button
-                              variant="dark"
-                              className="button-edit"
-                              onClick={() => handleClick(games.id)}
-                              style={{
-                                marginTop: "auto",
-                                marginLeft: "auto",
-                                fontFamily: "andale mono, monospace",
-                              }}
-                            >
-                              Get Details
-                            </Button>
-
-                            <Button
-                              className="button-edit"
-                              variant="warning"
-                              style={{
-                                marginTop: "auto",
-                                marginLeft: "auto",
-                                fontFamily: "andale mono, monospace",
-                              }}
-                            >
-                              Add to Favorites
-                            </Button>
-                          </div>
-                        </Card.Body>
-                      </Card>
+                      <CardComponent
+                        image={games.background_image}
+                        title={games.name}
+                        genre={games.genres}
+                        platform={games.platforms}
+                        date={games.released}
+                        gameID={games.id}
+                        key={games.id}
+                      />
                     );
                   })}
                 </div>
@@ -436,118 +330,15 @@ function GameDesc() {
                 <div className="card-containers">
                   {series.map((games) => {
                     return (
-                      <Card className="card" style={{ width: "18rem" }}>
-                        <Card.Img
-                          variant="top"
-                          src={games.background_image}
-                          style={{ height: "170px" }}
-                        />
-                        <Card.Body
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Card.Title
-                            style={{
-                              fontFamily: "Staatliches",
-                              fontSize: "30px",
-                            }}
-                          >
-                            {games.name}
-                          </Card.Title>
-                          <Card.Text>
-                            <ListGroup
-                              variant="flush"
-                              style={{ fontFamily: "andale mono, monospace" }}
-                            >
-                              <ListGroup.Item>
-                                <span
-                                  style={{
-                                    fontFamily: "Staatliches",
-                                    fontSize: "20px",
-                                  }}
-                                >
-                                  MetaCritic Score:
-                                </span>{" "}
-                                {games.metacritic}
-                              </ListGroup.Item>
-                              <ListGroup.Item>
-                                <span
-                                  style={{
-                                    fontFamily: "Staatliches",
-                                    fontSize: "20px",
-                                  }}
-                                >
-                                  Genre:
-                                </span>{" "}
-                                {games.genres
-                                  .map((genre) => genre.name)
-                                  .join(", ")}{" "}
-                              </ListGroup.Item>
-                              <ListGroup.Item>
-                                <span
-                                  style={{
-                                    fontFamily: "Staatliches",
-                                    fontSize: "20px",
-                                  }}
-                                >
-                                  Platforms:
-                                </span>{" "}
-                                {games.platforms
-                                  ? games.platforms
-                                      .map((platform) => platform.platform.name)
-                                      .join(", ")
-                                  : "No data"}
-                              </ListGroup.Item>
-                              <ListGroup.Item>
-                                <span
-                                  style={{
-                                    fontFamily: "Staatliches",
-                                    fontSize: "20px",
-                                  }}
-                                >
-                                  Release Date:
-                                </span>{" "}
-                                {games.released}
-                              </ListGroup.Item>
-                            </ListGroup>
-                          </Card.Text>
-                          <div
-                            className="buttons"
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <Button
-                              variant="dark"
-                              className="button-edit"
-                              onClick={() => handleClick(games.id)}
-                              style={{
-                                marginTop: "auto",
-                                marginLeft: "auto",
-                                fontFamily: "andale mono, monospace",
-                              }}
-                            >
-                              Get Details
-                            </Button>
-
-                            <Button
-                              className="button-edit"
-                              variant="warning"
-                              style={{
-                                marginTop: "auto",
-                                marginLeft: "auto",
-                                fontFamily: "andale mono, monospace",
-                              }}
-                            >
-                              Add to Favorites
-                            </Button>
-                          </div>
-                        </Card.Body>
-                      </Card>
+                      <CardComponent
+                        image={games.background_image}
+                        title={games.name}
+                        genre={games.genres}
+                        platform={games.platforms}
+                        date={games.released}
+                        gameID={games.id}
+                        key={games.id}
+                      />
                     );
                   })}
                 </div>
@@ -572,118 +363,15 @@ function GameDesc() {
                 <div className="card-containers">
                   {parentGames.map((games) => {
                     return (
-                      <Card className="card" style={{ width: "18rem" }}>
-                        <Card.Img
-                          variant="top"
-                          src={games.background_image}
-                          style={{ height: "170px" }}
-                        />
-                        <Card.Body
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Card.Title
-                            style={{
-                              fontFamily: "Staatliches",
-                              fontSize: "30px",
-                            }}
-                          >
-                            {games.name}
-                          </Card.Title>
-                          <Card.Text>
-                            <ListGroup
-                              variant="flush"
-                              style={{ fontFamily: "andale mono, monospace" }}
-                            >
-                              <ListGroup.Item>
-                                <span
-                                  style={{
-                                    fontFamily: "Staatliches",
-                                    fontSize: "20px",
-                                  }}
-                                >
-                                  MetaCritic Score:
-                                </span>{" "}
-                                {games.metacritic}
-                              </ListGroup.Item>
-                              <ListGroup.Item>
-                                <span
-                                  style={{
-                                    fontFamily: "Staatliches",
-                                    fontSize: "20px",
-                                  }}
-                                >
-                                  Genre:
-                                </span>{" "}
-                                {games.genres
-                                  .map((genre) => genre.name)
-                                  .join(", ")}{" "}
-                              </ListGroup.Item>
-                              <ListGroup.Item>
-                                <span
-                                  style={{
-                                    fontFamily: "Staatliches",
-                                    fontSize: "20px",
-                                  }}
-                                >
-                                  Platforms:
-                                </span>{" "}
-                                {games.platforms
-                                  ? games.platforms
-                                      .map((platform) => platform.platform.name)
-                                      .join(", ")
-                                  : "No data"}
-                              </ListGroup.Item>
-                              <ListGroup.Item>
-                                <span
-                                  style={{
-                                    fontFamily: "Staatliches",
-                                    fontSize: "20px",
-                                  }}
-                                >
-                                  Release Date:
-                                </span>{" "}
-                                {games.released}
-                              </ListGroup.Item>
-                            </ListGroup>
-                          </Card.Text>
-                          <div
-                            className="buttons"
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <Button
-                              variant="dark"
-                              className="button-edit"
-                              onClick={() => handleClick(games.id)}
-                              style={{
-                                marginTop: "auto",
-                                marginLeft: "auto",
-                                fontFamily: "andale mono, monospace",
-                              }}
-                            >
-                              Get Details
-                            </Button>
-
-                            <Button
-                              className="button-edit"
-                              variant="warning"
-                              style={{
-                                marginTop: "auto",
-                                marginLeft: "auto",
-                                fontFamily: "andale mono, monospace",
-                              }}
-                            >
-                              Add to Favorites
-                            </Button>
-                          </div>
-                        </Card.Body>
-                      </Card>
+                      <CardComponent
+                        image={games.background_image}
+                        title={games.name}
+                        genre={games.genres}
+                        date={games.released}
+                        platform={games.platforms}
+                        gameID={games.id}
+                        key={games.id}
+                      />
                     );
                   })}
                 </div>
