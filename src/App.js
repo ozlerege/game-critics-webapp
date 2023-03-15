@@ -14,12 +14,12 @@ import SearchResults from "./components/SearchResults.js";
 function App() {
   return (
     <div className="App">
-      <HashRouter>
+      <HashRouter basename="/game-critics-webapp">
         <AuthProvider>
           <Layout />
 
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route exact path="/game-critics-webapp" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
 
             <Route path="/homepage" element={<HomePage />} />
