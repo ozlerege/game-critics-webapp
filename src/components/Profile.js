@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./styles/profile.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { collection, getFirestore } from "firebase/firestore";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { getDocs, query, where } from "firebase/firestore";
 import { AuthContext } from "../context/Auth";
 import FavGamesCardComponent from "./FavGamesCardComponent";
@@ -56,7 +56,7 @@ function Profile() {
           <span
             style={{ fontFamily: "andale mono, monospace", fontSize: "25px" }}
           >
-            {currentUser}
+            {currentUser && currentUser.split("@")[0]}
           </span>
           <hr />
         </Col>

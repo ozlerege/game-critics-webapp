@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./styles/homepage.css";
 
 function Recommend() {

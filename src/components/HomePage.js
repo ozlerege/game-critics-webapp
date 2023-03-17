@@ -13,6 +13,8 @@ import eldenring from "./pictures/eldenring.jpeg";
 import top100 from "./pictures/top100.jpeg";
 import CardComponent from "./CardComponent";
 import kratos from "./pictures/kratos.webp";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowCircleRight } from "@fortawesome/free-solid-svg-icons";
 
 function HomePage() {
   const { currentUser } = useContext(AuthContext);
@@ -50,6 +52,10 @@ function HomePage() {
   const handleRecommend = () => {
     navigate("/recommend");
   };
+  const handleViewMore = () => {
+    console.log("view more");
+    navigate("/latest/page/:pageNumber");
+  };
 
   return (
     <div className="main">
@@ -73,9 +79,33 @@ function HomePage() {
             );
           })}
           {latestGames.length > 3 && (
-            <Card className="card view-more" style={{ width: "18rem" }}>
-              <Card.Body>
-                <Card.Title className="my-auto">View More</Card.Title>
+            <Card
+              className="card view-more"
+              style={{
+                width: "18rem",
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "black",
+                border: "2px solid white",
+              }}
+            >
+              <Card.Body onClick={handleViewMore}>
+                <Card.Title
+                  className="my-auto"
+                  style={{
+                    color: "white",
+                    fontFamily: "Staatliches",
+                    fontSize: "35px",
+                  }}
+                >
+                  View More
+                </Card.Title>
+                <FontAwesomeIcon
+                  style={{ color: "white" }}
+                  icon={faArrowCircleRight}
+                />
               </Card.Body>
             </Card>
           )}

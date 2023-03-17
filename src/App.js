@@ -11,6 +11,7 @@ import Profile from "./components/Profile";
 import BestGamesYearly from "./components/BestGamesYearly";
 import { AuthProvider } from "./context/Auth";
 import SearchResults from "./components/SearchResults.js";
+import Latest from "./components/Latest.js";
 function App() {
   return (
     <div className="App">
@@ -19,10 +20,11 @@ function App() {
           <Layout />
 
           <Routes>
-            <Route exact path="/" element={<Login />} />
+            <Route exact path="game-critics-webapp" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
 
             <Route path="/homepage" element={<HomePage />} />
+            <Route path="/latest/page/:pageNumber" element={<Latest />} />
             <Route path="/recommend" element={<Recommend />} />
             <Route path="/upcoming/month/:getMonth" element={<Upcoming />} />
             <Route path="/top100/page/:pageNumber" element={<Top100 />} />

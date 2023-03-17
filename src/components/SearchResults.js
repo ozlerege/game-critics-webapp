@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import config from "./config.js";
-import Button from "react-bootstrap/Button";
 import "./styles/homepage.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CardComponent from "./CardComponent.js";
@@ -12,9 +11,11 @@ export default function SearchResults() {
   const { query } = useParams();
   const [queryResults, setQueryResults] = useState(query);
   const [gameResults, setGameResults] = useState([]);
+  const [userResults, setUserResults] = useState([]);
   const handleQueryChange = (event) => {
     setQueryResults(event.target.value);
   };
+
   useEffect(() => {
     const my_key = config.API_KEY;
     const url = `https://api.rawg.io/api/games?key=${my_key}&search=${queryResults}`;
@@ -30,7 +31,7 @@ export default function SearchResults() {
       <h1 className="pb-3 px-3">Search Results</h1>
       <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Search a Game Here</Form.Label>
+          <Form.Label>Search a Game or User</Form.Label>
           <Form.Control
             className="search-a-game"
             type="text"
