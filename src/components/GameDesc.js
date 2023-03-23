@@ -281,7 +281,14 @@ function GameDesc() {
                 >
                   Other Editions
                 </span>{" "}
-                <div className="card-containers">
+                <div
+                  className="cards-containers"
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "15px",
+                  }}
+                >
                   {addition.map((games) => {
                     return (
                       <CardComponent
@@ -327,7 +334,14 @@ function GameDesc() {
                     activeClassName={"paginationActive"}
                   />
                 </div>
-                <div className="card-containers">
+                <div
+                  className="cards-containers"
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "15px",
+                  }}
+                >
                   {series.map((games) => {
                     return (
                       <CardComponent
@@ -360,7 +374,14 @@ function GameDesc() {
                 >
                   Parent Games
                 </span>{" "}
-                <div className="card-containers">
+                <div
+                  className="cards-containers"
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "15px",
+                  }}
+                >
                   {parentGames.map((games) => {
                     return (
                       <CardComponent

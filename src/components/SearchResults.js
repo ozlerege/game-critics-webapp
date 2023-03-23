@@ -20,7 +20,8 @@ import {
 } from "firebase/firestore";
 export default function SearchResults() {
   const db = getFirestore();
-  const { searchQuery } = useParams();
+  var { searchQuery } = useParams();
+  console.log("search query in search bar: ", searchQuery);
   const { currentUser } = useContext(AuthContext);
   const [queryResults, setQueryResults] = useState(searchQuery);
   const [gameResults, setGameResults] = useState([]);
@@ -34,6 +35,7 @@ export default function SearchResults() {
       const docSnap = await getDocs(
         query(
           docRef,
+          where("email", "!=", currentUser),
           orderBy("email"),
           startAt(queryResults),
           endAt(queryResults + "\uf8ff")
@@ -59,6 +61,7 @@ export default function SearchResults() {
     fetch(url)
       .then((response) => response.json())
       .then((response) => {
+        console.log(response);
         setGameResults(response.results);
       })
       .catch((err) => console.error(err));

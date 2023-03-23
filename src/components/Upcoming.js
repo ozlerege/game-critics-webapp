@@ -89,7 +89,14 @@ function Upcoming() {
       {upcomingGames.length === 0 ? (
         <div className="no-data-found">No data found</div>
       ) : (
-        <div className="card-containers">
+        <div
+          className="cards-containers"
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "15px",
+          }}
+        >
           {upcomingGames.map((games) => {
             return (
               <CardComponent

@@ -136,7 +136,14 @@ function Profile() {
         >
           Favorite Games
         </h3>
-        <div className="card-containers">
+        <div
+          className="cards-containers"
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "15px",
+          }}
+        >
           {favGames.map((game) => {
             return (
               <FavGamesCardComponent gameID={game}></FavGamesCardComponent>

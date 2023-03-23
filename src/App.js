@@ -34,7 +34,7 @@ function App() {
               element={<BestGamesYearly />}
             />
             <Route
-              path="/search/:query"
+              path="/search/:searchQuery"
               element={<SearchResults></SearchResults>}
             />
             <Route path="/profile" element={<Profile />} />
