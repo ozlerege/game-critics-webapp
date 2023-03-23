@@ -16,7 +16,7 @@ import Latest from "./components/Latest.js";
 function App() {
   return (
     <div className="App">
-      <HashRouter basename="/game-critics-webapp">
+      <HashRouter>
         <AuthProvider>
           <Layout />
 
