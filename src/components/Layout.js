@@ -58,85 +58,84 @@ function Layout() {
   };
   return (
     <div>
-      {location.pathname !== "/game-critics-webapp" &&
-        location.pathname !== "/signup" && (
-          <Navbar
-            bg="dark"
-            variant="dark"
-            expand="lg"
-            className="navbar navbar-expand-lg bg-body-tertiary"
-          >
-            <Container fluid>
-              <Navbar.Brand href="/homepage" className="navbar-brand">
-                GameCritics
-              </Navbar.Brand>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav" className="collapse">
-                <Nav className="me-auto">
-                  <Nav.Link
-                    className="nav-item"
-                    href={`/upcoming/month/${currentMonthName}`}
-                  >
-                    Upcoming
-                  </Nav.Link>
-                  <Nav.Link className="nav-item" href="/top100/page/1">
-                    Top 100
-                  </Nav.Link>
-                  <Nav.Link className="nav-item" href="/recommend">
-                    Recommend
-                  </Nav.Link>
-                  <Nav.Link className="nav-item" href="/profile">
-                    Profile
-                  </Nav.Link>
-                </Nav>
-                <div className="search-wrapper">
-                  <Form className="d-flex" onSubmit={handleSubmit}>
-                    <Form.Control
-                      type="search"
-                      placeholder="Search a Game"
-                      className="me-2"
-                      aria-label="Search"
-                      value={searchQuery}
-                      onChange={handleSearchQueryChange}
-                      required
-                    />
+      {location.pathname !== "/" && location.pathname !== "/signup" && (
+        <Navbar
+          bg="dark"
+          variant="dark"
+          expand="lg"
+          className="navbar navbar-expand-lg bg-body-tertiary"
+        >
+          <Container fluid>
+            <Navbar.Brand href="/homepage" className="navbar-brand">
+              GameCritics
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav" className="collapse">
+              <Nav className="me-auto">
+                <Nav.Link
+                  className="nav-item"
+                  href={`/upcoming/month/${currentMonthName}`}
+                >
+                  Upcoming
+                </Nav.Link>
+                <Nav.Link className="nav-item" href="/top100/page/1">
+                  Top 100
+                </Nav.Link>
+                <Nav.Link className="nav-item" href="/recommend">
+                  Recommend
+                </Nav.Link>
+                <Nav.Link className="nav-item" href="/profile">
+                  Profile
+                </Nav.Link>
+              </Nav>
+              <div className="search-wrapper">
+                <Form className="d-flex" onSubmit={handleSubmit}>
+                  <Form.Control
+                    type="search"
+                    placeholder="Search a Game"
+                    className="me-2"
+                    aria-label="Search"
+                    value={searchQuery}
+                    onChange={handleSearchQueryChange}
+                    required
+                  />
 
-                    <Button
-                      variant="success"
-                      className="button"
-                      type="submit"
-                      style={{
-                        backgroundColor: "green",
-                        fontFamily: "Staatliches",
-                      }}
-                    >
-                      Search
-                    </Button>
-                  </Form>
-                </div>
-                <div>
-                  {currentUser !== null ? (
-                    <Button
-                      variant="danger"
-                      className="button"
-                      onClick={handleLogOut}
-                    >
-                      Log Out
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="success"
-                      className="button"
-                      onClick={handleLogIn}
-                    >
-                      Log In
-                    </Button>
-                  )}
-                </div>
-              </Navbar.Collapse>
-            </Container>
-          </Navbar>
-        )}
+                  <Button
+                    variant="success"
+                    className="button"
+                    type="submit"
+                    style={{
+                      backgroundColor: "green",
+                      fontFamily: "Staatliches",
+                    }}
+                  >
+                    Search
+                  </Button>
+                </Form>
+              </div>
+              <div>
+                {currentUser !== null ? (
+                  <Button
+                    variant="danger"
+                    className="button"
+                    onClick={handleLogOut}
+                  >
+                    Log Out
+                  </Button>
+                ) : (
+                  <Button
+                    variant="success"
+                    className="button"
+                    onClick={handleLogIn}
+                  >
+                    Log In
+                  </Button>
+                )}
+              </div>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      )}
     </div>
   );
 }

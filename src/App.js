@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import Login from "./components/Login.js";
 import SignUp from "./components/SignUp.js";
 import HomePage from "./components/HomePage";
@@ -15,12 +16,12 @@ import Latest from "./components/Latest.js";
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      <HashRouter>
         <AuthProvider>
           <Layout />
 
           <Routes>
-            <Route exact path="game-critics-webapp" element={<Login />} />
+            <Route exact path="/" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
 
             <Route path="/homepage" element={<HomePage />} />
@@ -41,7 +42,7 @@ function App() {
             <Route path="*" element={<h1>404 - Not Found</h1>} />
           </Routes>
         </AuthProvider>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }
