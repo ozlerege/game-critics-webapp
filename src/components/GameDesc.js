@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/game_info.css";
 import ReactPaginate from "react-paginate";
 import CardComponent from "./CardComponent.js";
+import { Button, ListGroupItem } from "react-bootstrap";
 function GameDesc() {
   const { gameID } = useParams();
 
@@ -16,9 +17,12 @@ function GameDesc() {
   const [review, setReview] = useState(null);
   const [parentGames, setParentGames] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [stores, setStores] = useState(null);
   const [seriesCount, setSeriesCount] = useState(null);
-
+  const [storeDetails, setStoreDetails] = useState(null);
+  const imageClick = (id) => {
+    console.log("clicked", id);
+  };
   useEffect(() => {
     const my_key = config.API_KEY;
     const url = `https:api.rawg.io/api/games/${gameID}?key=${my_key}`;
@@ -39,6 +43,18 @@ function GameDesc() {
         } else if (Number(response.rating) >= 0.0) {
           setReview("Very Negative 😱");
         }
+      })
+      .catch((err) => console.error(err));
+  }, [gameID]);
+  useEffect(() => {
+    const my_key = config.API_KEY;
+    const url = `https:api.rawg.io/api/games/${gameID}/stores?key=${my_key}`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((response) => {
+        setStores(response.results);
+        console.log("Stores: ", stores);
       })
       .catch((err) => console.error(err));
   }, [gameID]);
@@ -100,152 +116,166 @@ function GameDesc() {
   };
 
   return (
-    <div className="my-container">
+    <div
+      className="my-container"
+      style={{
+        backgroundColor: `${gameDetails.dominant_color}`,
+      }}
+    >
       <h2>{gameDetails.name}</h2>
-      <div className="image-container">
-        <img
-          src={gameDetails.background_image}
-          className="img-fluid"
-          alt="backgroundImage"
-        />
-      </div>
+
       <div className="list-group-container">
-        <ListGroup>
-          <ListGroup.Item className="list-group-item">
-            <span
-              style={{
-                fontFamily: "Staatliches",
-                fontSize: "30px",
-              }}
-            >
-              Review:
-            </span>{" "}
-            {review}
-          </ListGroup.Item>
-        </ListGroup>
-        <ListGroup>
-          <ListGroup.Item className="list-group-item">
-            <span
-              style={{
-                fontFamily: "Staatliches",
-                fontSize: "30px",
-              }}
-            >
-              Website:
-            </span>{" "}
-            <a href={gameDetails.website}>{gameDetails.website}</a>
-          </ListGroup.Item>
-        </ListGroup>
-        <ListGroup>
-          <ListGroup.Item className="list-group-item">
-            <span
-              style={{
-                fontFamily: "Staatliches",
-                fontSize: "30px",
-              }}
-            >
-              Release Date:
-            </span>{" "}
-            {gameDetails.released}
-          </ListGroup.Item>
-        </ListGroup>
-        <ListGroup>
-          {gameDetails.genres && (
-            <ListGroup.Item className="list-group-item">
-              <span
-                style={{
-                  fontFamily: "Staatliches",
-                  fontSize: "30px",
-                }}
-              >
-                Platforms:
-              </span>{" "}
-              {gameDetails.platforms
-                .map((platform) => platform.platform.name)
-                .join(", ")}{" "}
-            </ListGroup.Item>
-          )}
-        </ListGroup>
-        <ListGroup>
-          {gameDetails.genres && (
-            <ListGroup.Item className="list-group-item">
-              <span
-                style={{
-                  fontFamily: "Staatliches",
-                  fontSize: "30px",
-                }}
-              >
-                Genre:
-              </span>{" "}
-              {gameDetails.genres.map((genre) => genre.name).join(", ")}{" "}
-            </ListGroup.Item>
-          )}
-        </ListGroup>
+        <div className="form my-5 mx-5">
+          <div className="d-flex justify-content-center align-items-center container">
+            <div className="row p-4">
+              <div className="col-lg-6 pt-2">
+                <ListGroup>
+                  <ListGroup.Item className="list-group-item">
+                    <span
+                      style={{
+                        fontFamily: "Staatliches",
+                        fontSize: "30px",
+                      }}
+                    >
+                      Review:
+                    </span>{" "}
+                    {review}
+                  </ListGroup.Item>
 
-        {gameDetails.developers && (
-          <ListGroup>
-            <ListGroup.Item className="list-group-item">
-              <span
-                style={{
-                  fontFamily: "Staatliches",
-                  fontSize: "30px",
-                }}
-              >
-                Developers:
-              </span>{" "}
-              {gameDetails.developers
-                .map((developer) => developer.name)
-                .join(", ")}{" "}
-            </ListGroup.Item>
-          </ListGroup>
-        )}
+                  <ListGroup.Item className="list-group-item">
+                    <span
+                      style={{
+                        fontFamily: "Staatliches",
+                        fontSize: "30px",
+                      }}
+                    >
+                      Website:
+                    </span>{" "}
+                    <a href={gameDetails.website}>{gameDetails.website}</a>
+                  </ListGroup.Item>
 
-        <ListGroup>
-          {gameDetails.publishers && (
-            <ListGroup.Item className="list-group-item">
-              <span
-                style={{
-                  fontFamily: "Staatliches",
-                  fontSize: "30px",
-                }}
-              >
-                Publishers:
-              </span>{" "}
-              {gameDetails.publishers
-                .map((publisher) => publisher.name)
-                .join(", ")}{" "}
-            </ListGroup.Item>
-          )}
-        </ListGroup>
+                  <ListGroup.Item className="list-group-item">
+                    <span
+                      style={{
+                        fontFamily: "Staatliches",
+                        fontSize: "30px",
+                      }}
+                    >
+                      Release Date:
+                    </span>{" "}
+                    {gameDetails.released}
+                  </ListGroup.Item>
 
-        <ListGroup>
-          <ListGroup.Item className="list-group-item">
-            <span
-              style={{
-                fontFamily: "Staatliches",
-                fontSize: "30px",
-              }}
-            >
-              MetaCritic Score:
-            </span>{" "}
-            {gameDetails.metacritic}
-          </ListGroup.Item>
-        </ListGroup>
+                  {gameDetails.genres && (
+                    <ListGroup.Item className="list-group-item">
+                      <span
+                        style={{
+                          fontFamily: "Staatliches",
+                          fontSize: "30px",
+                        }}
+                      >
+                        Platforms:
+                      </span>{" "}
+                      {gameDetails.platforms
+                        .map((platform) => platform.platform.name)
+                        .join(", ")}{" "}
+                    </ListGroup.Item>
+                  )}
+
+                  {gameDetails.genres && (
+                    <ListGroup.Item className="list-group-item">
+                      <span
+                        style={{
+                          fontFamily: "Staatliches",
+                          fontSize: "30px",
+                        }}
+                      >
+                        Genre:
+                      </span>{" "}
+                      {gameDetails.genres.map((genre) => genre.name).join(", ")}{" "}
+                    </ListGroup.Item>
+                  )}
+
+                  {gameDetails.developers && (
+                    <ListGroup.Item className="list-group-item">
+                      <span
+                        style={{
+                          fontFamily: "Staatliches",
+                          fontSize: "30px",
+                        }}
+                      >
+                        Developers:
+                      </span>{" "}
+                      {gameDetails.developers
+                        .map((developer) => developer.name)
+                        .join(", ")}{" "}
+                    </ListGroup.Item>
+                  )}
+
+                  {gameDetails.publishers && (
+                    <ListGroup.Item className="list-group-item">
+                      <span
+                        style={{
+                          fontFamily: "Staatliches",
+                          fontSize: "30px",
+                        }}
+                      >
+                        Publishers:
+                      </span>{" "}
+                      {gameDetails.publishers
+                        .map((publisher) => publisher.name)
+                        .join(", ")}{" "}
+                    </ListGroup.Item>
+                  )}
+
+                  <ListGroup.Item className="list-group-item">
+                    <span
+                      style={{
+                        fontFamily: "Staatliches",
+                        fontSize: "30px",
+                      }}
+                    >
+                      MetaCritic Score:
+                    </span>{" "}
+                    {gameDetails.metacritic}
+                  </ListGroup.Item>
+                </ListGroup>
+              </div>
+              <div className="col-lg-6 d-flex justify-content-center align-items-center">
+                <img
+                  src={gameDetails.background_image}
+                  className="img-fluid"
+                  alt="backgroundImage"
+                  style={{ width: "100%", height: "auto" }}
+                />
+              </div>
+              <div className="favorites px-4 py-3">
+                <Button
+                  variant="success"
+                  style={{
+                    fontFamily: "andale mono, monospace",
+                  }}
+                >
+                  Add to Favorites
+                </Button>{" "}
+              </div>
+            </div>
+          </div>
+        </div>
 
         <ListGroup>
           <ListGroup.Item>
             <span
               style={{
                 fontFamily: "Staatliches",
-                fontSize: "30px",
+                fontSize: "35px",
               }}
             >
               Description:
             </span>{" "}
             {gameDetails.description_raw}
           </ListGroup.Item>
-        </ListGroup>
-        <ListGroup>
+
           <ListGroup.Item>
             <span
               style={{
@@ -266,6 +296,23 @@ function GameDesc() {
               ))}
             </div>
           </ListGroup.Item>
+          <ListGroup>
+            <ListGroup.Item className="list-group-item">
+              <span
+                style={{
+                  fontFamily: "Staatliches",
+                  fontSize: "30px",
+                }}
+              >
+                Where to Buy:
+              </span>{" "}
+              <ListGroupItem>
+                <div className="stores">
+                  {stores && stores.map((store) => store.url)}
+                </div>
+              </ListGroupItem>
+            </ListGroup.Item>
+          </ListGroup>
         </ListGroup>
         <ListGroup>
           <ListGroup.Item>

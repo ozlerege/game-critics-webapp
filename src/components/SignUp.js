@@ -36,6 +36,7 @@ function SignUp() {
   };
   const submitHandler = async (event) => {
     event.preventDefault();
+    const today = new Date().toISOString().slice(0, 10);
     if (email === "") {
       alert("wrong data");
     } else {
@@ -45,6 +46,7 @@ function SignUp() {
         genre: genre,
         platform: platform,
         favorites: [],
+        date: today,
       };
       try {
         await createUserWithEmailAndPassword(auth, email, password);

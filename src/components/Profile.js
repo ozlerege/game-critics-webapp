@@ -12,6 +12,7 @@ function Profile() {
   const { currentUser } = useContext(AuthContext);
   const [genre, setGenre] = useState(null);
   const [platform, setPlatform] = useState(null);
+  const [date, setDate] = useState(null);
   const db = getFirestore();
   useEffect(() => {
     const getFavs = async () => {
@@ -22,6 +23,7 @@ function Profile() {
       setFavGames(docSnap.docs[0].data()["favorites"]);
       setGenre(docSnap.docs[0].data().genre);
       setPlatform(docSnap.docs[0].data().platform);
+      setDate(docSnap.docs[0].data().date);
     };
     getFavs();
   }, []);
@@ -73,7 +75,7 @@ function Profile() {
           <span
             style={{ fontFamily: "andale mono, monospace", fontSize: "25px" }}
           >
-            {currentUser}
+            {date}
           </span>
           <hr />
         </Col>

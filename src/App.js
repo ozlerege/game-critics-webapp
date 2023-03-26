@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { HashRouter } from "react-router-dom";
+
 import Login from "./components/Login.js";
 import SignUp from "./components/SignUp.js";
 import HomePage from "./components/HomePage";
@@ -16,7 +16,7 @@ import Latest from "./components/Latest.js";
 function App() {
   return (
     <div className="App">
-      <HashRouter>
+      <BrowserRouter>
         <AuthProvider>
           <Layout />
 
@@ -42,7 +42,7 @@ function App() {
             <Route path="*" element={<h1>404 - Not Found</h1>} />
           </Routes>
         </AuthProvider>
-      </HashRouter>
+      </BrowserRouter>
     </div>
   );
 }

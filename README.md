@@ -1,6 +1,43 @@
-# Getting Started with Create React App
+# Game Critics Web App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Copying this work to your repository
+
+1. With the cloning process, you can download a remote Git repository to your own computer. After cloning the remote repository, all changes will now be saved in the clone Git repository on our computer, until you write our changes back to the remote repository with the git push command.
+2. Create a new repository on Github by clicking this link (https://github.com/new). It will navigate you to the creating new repository page.
+3. Clone the repository that was just created by using the following command: `git clone https://github.com/ozlerege/game-critics-webapp.git`
+4. After you clone the file into your repository, the cloned file can be attached to the repository you just created by executing the following command: `git remote set-url origin https://www.github.com/{github_username}/coding_project.git`
+5. You can connect the local repo with the remote repo with the command. `git push origin main`. When you refresh your repository on GitHub, you can now see the files that are cloned into your repository on GitHub
+
+## Required Installations
+
+Create a config.js file to storing the API Keys and other sensitive information that is related to database.
+Add following variable to your file.
+
+```
+var config = {
+  API_KEY: "your RAWG API KEY",
+  apiKey: "firebase api key",
+  authDomain: "firebase auth domain",
+  projectId: "firebase project id ",
+  storageBucket: "firebase storage bucket",
+  messagingSenderId: "firebase messaging Sender id",
+  appId: "firebase app id",
+};
+export default config;
+
+```
+
+### Obtaining API KEY
+
+The project uses the video game database api called "RAWG API" which can be obtained from following link. [RAWG API](https://rawg.io/apidocs)
+
+### Firebase and Cloud Firestore
+
+1.  To obtain a web app firestore, first go to [Firebase](https://firebase.google.com) and click 'Go to Console' tab.
+2.  Click to "Add a Project" to create new project.
+3.  Create a new web application and give it a name
+4.  Add Firebase SDK to your config.js
+5.  Also enable Email/Password auth in Authentication section.
 
 ## Available Scripts
 
@@ -38,33 +75,3 @@ If you aren't satisfied with the build tool and configuration choices, you can `
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
