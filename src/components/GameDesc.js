@@ -6,10 +6,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/game_info.css";
 import ReactPaginate from "react-paginate";
 import CardComponent from "./CardComponent.js";
-import { Button, ListGroupItem } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 function GameDesc() {
   const { gameID } = useParams();
-
   const [gameDetails, setGameDetails] = useState({});
   const [screenshots, setScreenshots] = useState([]);
   const [series, setSeries] = useState([]);
@@ -19,10 +18,8 @@ function GameDesc() {
   const [currentPage, setCurrentPage] = useState(1);
   const [stores, setStores] = useState(null);
   const [seriesCount, setSeriesCount] = useState(null);
-  const [storeDetails, setStoreDetails] = useState(null);
-  const imageClick = (id) => {
-    console.log("clicked", id);
-  };
+  const [storesObj, setStoresObj] = useState({});
+
   useEffect(() => {
     const my_key = config.API_KEY;
     const url = `https:api.rawg.io/api/games/${gameID}?key=${my_key}`;
@@ -57,7 +54,30 @@ function GameDesc() {
         console.log("Stores: ", stores);
       })
       .catch((err) => console.error(err));
-  }, [gameID]);
+  }, [gameID, stores]);
+  useEffect(() => {
+    const my_key = config.API_KEY;
+    const url = `https:api.rawg.io/api/stores?key=${my_key}`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((response) => {
+        // create an empty object to store the stores
+
+        response.results.forEach((store) => {
+          let updatedValue = {};
+          updatedValue[store.id] = store.name;
+          setStoresObj((storesObj) => ({
+            ...storesObj,
+            ...updatedValue,
+          })); // add a key-value pair for each store ID and name
+        });
+
+        console.log("stores object: ", storesObj); // display the object in the console
+      })
+      .catch((err) => console.error(err));
+  }, [gameID, storesObj]);
+
   useEffect(() => {
     const my_key = config.API_KEY;
     const url = `https:api.rawg.io/api/games/${gameID}/screenshots?key=${my_key}`;
@@ -84,7 +104,7 @@ function GameDesc() {
         console.log("Series Count: ", seriesCount);
       })
       .catch((err) => console.error(err));
-  }, [gameID, currentPage]);
+  }, [gameID, currentPage, seriesCount]);
   useEffect(() => {
     const my_key = config.API_KEY;
     const url = `https:api.rawg.io/api/games/${gameID}/parent-games?key=${my_key}`;
@@ -237,7 +257,9 @@ function GameDesc() {
                     >
                       MetaCritic Score:
                     </span>{" "}
-                    {gameDetails.metacritic}
+                    {gameDetails.metacritic === null
+                      ? "N/A"
+                      : gameDetails.metacritic}
                   </ListGroup.Item>
                 </ListGroup>
               </div>
@@ -298,19 +320,26 @@ function GameDesc() {
           </ListGroup.Item>
           <ListGroup>
             <ListGroup.Item className="list-group-item">
-              <span
-                style={{
-                  fontFamily: "Staatliches",
-                  fontSize: "30px",
-                }}
-              >
+              <span style={{ fontFamily: "Staatliches", fontSize: "30px" }}>
                 Where to Buy:
               </span>{" "}
-              <ListGroupItem>
-                <div className="stores">
-                  {stores && stores.map((store) => store.url)}
-                </div>
-              </ListGroupItem>
+              <div className="stores">
+                {stores &&
+                  stores.map((store) => (
+                    <>
+                      <a
+                        href={store.url}
+                        style={{
+                          color: "grey",
+                        }}
+                      >
+                        {storesObj[store.store_id]}
+                      </a>
+                      <br />
+                      <br />
+                    </>
+                  ))}
+              </div>
             </ListGroup.Item>
           </ListGroup>
         </ListGroup>
